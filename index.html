@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Learn Omweso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Source+Sans+3:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Serif+Bengali:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5eee3; --paper:#fffaf2; --ink:#2a1c12; --muted:#7a6656; --line:#e3d6c3;
+  --accent:#b4502a; --accent-ink:#fff; --ok:#3d6b39; --bad:#a63a2a; --hint:#8a6a12;
+  --wood1:#8a5329; --wood2:#5e3517; --pitc:#2e1a0e;
+  --task:#f3e5d0; --hover:#efe4d4; --field:#fff; --ok-bg:#e3eedf; --bad-bg:#f6e0db; --hint-bg:#f6edd2;
+  --banner:#2a1c12; --banner-ink:#fffaf2; --shadow:rgba(60,30,10,.28); color-scheme:light;
+  --pit:min(calc((100vw - 74px) / 9.9),62px); --gap:calc(var(--pit)*.18); --pad:calc(var(--pit)*.28);
+}
+[data-theme=dark]{
+  --bg:#16100b; --paper:#211811; --ink:#f0e5d5; --muted:#a89580; --line:#3b2d21;
+  --accent:#e2804f; --accent-ink:#1a110b; --ok:#8fc98a; --bad:#f09484; --hint:#e6c66a;
+  --wood1:#6e4120; --wood2:#3f230f;
+  --task:#2e2218; --hover:#2c2118; --field:#2a2017; --ok-bg:#1f2e1d; --bad-bg:#3a1f1a; --hint-bg:#352c16;
+  --banner:#f0e5d5; --banner-ink:#16100b; --shadow:rgba(0,0,0,.6); color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif}
+h1,h2,h3,h4{font-family:Fraunces,"Noto Serif Bengali",Georgia,serif;font-weight:700;line-height:1.15;margin:0 0 .5em}
+a{color:var(--accent)}
+.muted{color:var(--muted)}
+header.top{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top-in{max-width:1180px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:Fraunces,"Noto Serif Bengali",serif;font-size:22px;font-weight:700}
+.brand svg{width:34px;height:34px}
+.brand small{font:600 12px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;display:block}
+nav{display:flex;gap:4px;margin-left:auto}
+.prefs{display:flex;gap:8px;align-items:center}
+.prefs label{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--muted)}
+.prefs select{font:600 14px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--field);color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:3px solid #f2a65a;outline-offset:3px}
+.pit.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+:focus-visible{outline:4px solid #ffd27a;outline-offset:3px}
+nav a{padding:8px 14px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:600}
+nav a.on{background:var(--ink);color:var(--paper)}
+main{max-width:1180px;margin:0 auto;padding:22px 18px 60px}
+.btn{font:600 15px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;padding:9px 16px;border-radius:10px;border:1px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover:not(:disabled){border-color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.small{padding:5px 11px;font-size:14px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px}
+
+/* Learn layout */
+.learn{display:grid;grid-template-columns:250px 1fr;gap:22px;align-items:start}
+.lessons{position:sticky;top:76px}
+.lessons ol{list-style:none;margin:0;padding:0}
+.lessons li button{width:100%;display:flex;gap:10px;align-items:center;text-align:left;background:none;border:0;padding:8px 10px;border-radius:10px;font:600 15px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;color:var(--ink);cursor:pointer}
+.lessons li button:hover{background:var(--hover)}
+.lessons li button.on{background:var(--ink);color:var(--paper)}
+.lessons .num{flex:none;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;border:1.5px solid currentColor}
+.lessons button.done .num{background:var(--ok);border-color:var(--ok);color:#fff}
+.lessons h3{font-size:15px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:"Source Sans 3","Noto Sans Bengali",system-ui,sans-serif}
+.lesson-head h2{font-size:30px}
+.kicker{display:block;font:700 12px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.lesson-body{display:grid;grid-template-columns:minmax(260px,1fr) auto;gap:26px;align-items:start}
+.lesson-text{max-width:60ch}
+.lesson-text ol,.lesson-text ul{padding-left:1.2em}
+.lesson-text li{margin:.25em 0}
+.lesson-text h4{margin-top:1em;font-size:18px}
+.task{background:var(--task);border-left:4px solid var(--accent);padding:10px 14px;border-radius:8px;margin:12px 0}
+.feedback{min-height:1.4em;margin:8px 0;padding:0;border-radius:8px}
+.feedback.ok,.feedback.bad,.feedback.hint{padding:9px 13px}
+.feedback.ok{background:var(--ok-bg);color:var(--ok)}
+.feedback.bad{background:var(--bad-bg);color:var(--bad)}
+.feedback.hint{background:var(--hint-bg);color:var(--hint)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lesson-nav{display:flex;justify-content:space-between;margin-top:22px;border-top:1px solid var(--line);padding-top:16px;gap:10px}
+.rev-chip{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#e9c46a;color:#2a1c12;font-size:13px;font-weight:700}
+.statusline{display:flex;justify-content:space-between;gap:10px;min-height:1.6em;font-size:15px;margin-top:6px}
+.statusline .hand{font-weight:700;color:var(--accent);white-space:nowrap}
+.choice{background:var(--paper);border:2px solid var(--accent);border-radius:12px;padding:10px 14px;margin-top:8px}
+.choice p{margin:0 0 8px}
+.choice .btn{margin:2px 4px 2px 0}
+
+/* Board */
+.board-wrap{display:inline-block;user-select:none;-webkit-user-select:none}
+.side-label{display:flex;justify-content:space-between;font-weight:700;font-size:14px;color:var(--muted);padding:4px 6px;text-transform:uppercase;letter-spacing:.06em}
+.side-label .cap{color:var(--accent);text-transform:none;letter-spacing:0}
+.board{border-radius:calc(var(--pit)*.32);padding:0;
+  background:
+   repeating-linear-gradient(92deg,rgba(255,255,255,.04) 0 3px,rgba(0,0,0,.05) 3px 7px,rgba(255,255,255,.02) 7px 13px),
+   linear-gradient(170deg,var(--wood1),var(--wood2));
+  box-shadow:0 10px 26px var(--shadow), inset 0 2px 0 rgba(255,255,255,.15), inset 0 -3px 0 rgba(0,0,0,.25)}
+.grid{position:relative;display:grid;grid-template-columns:repeat(8,var(--pit));grid-template-rows:repeat(4,var(--pit));gap:var(--gap);padding:var(--pad)}
+.divider{position:absolute;left:var(--pad);right:var(--pad);top:calc(var(--pad) + 2*var(--pit) + 1.5*var(--gap));height:2px;background:rgba(0,0,0,.35);box-shadow:0 1px 0 rgba(255,255,255,.12);transform:translateY(-1px)}
+.arrows{position:absolute;left:var(--pad);width:calc(8*var(--pit) + 7*var(--gap));height:calc(2*var(--pit) + var(--gap));opacity:0;transition:opacity .3s;pointer-events:none}
+.arrows.n{top:var(--pad)} .arrows.s{top:calc(var(--pad) + 2*var(--pit) + 2*var(--gap))}
+.arrows svg{width:100%;height:100%;display:block}
+.arrows path{fill:none;stroke:#f2c879;stroke-width:5;stroke-dasharray:14 10;opacity:.8}
+.arrows polygon{fill:#f2c879}
+.show-arrows .arrows.s{opacity:1}
+.show-north-arrows .arrows.n{opacity:.6}
+.pit{position:relative;width:var(--pit);height:var(--pit);border-radius:50%;border:0;padding:0;cursor:default;
+  background:radial-gradient(circle at 50% 38%,#1c0f07 0,#2b170b 55%,#3d2311 100%);
+  box-shadow:inset 0 calc(var(--pit)*.08) calc(var(--pit)*.12) rgba(0,0,0,.7), 0 1px 0 rgba(255,255,255,.18);
+  transition:box-shadow .15s, transform .15s}
+.pit.clickable{cursor:pointer}
+.pit.clickable:hover{box-shadow:inset 0 calc(var(--pit)*.08) calc(var(--pit)*.12) rgba(0,0,0,.7),0 0 0 3px rgba(242,200,121,.75)}
+.pit .seeds{position:absolute;inset:0}
+.pit .seeds i{position:absolute;width:24%;height:20%;margin:-10% 0 0 -12%;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#f4efe4,hsl(calc(30deg + var(--h)*1deg) 14% 66%) 70%,#6f675c);
+  box-shadow:0 1px 1px rgba(0,0,0,.6)}
+.pit .count{position:absolute;right:-4px;bottom:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--paper);color:var(--ink);font:700 12px/20px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;box-shadow:0 1px 2px rgba(0,0,0,.4)}
+.pit .count:empty{display:none}
+.pit.revpit::after{content:"↻";position:absolute;left:-4px;top:-4px;width:18px;height:18px;border-radius:50%;background:#e9c46a;color:#2a1c12;font:700 12px/18px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;display:none}
+.show-rev .pit.south.revpit::after{display:block}
+.show-rev.show-north-arrows .pit.north.revpit::after{display:block}
+.pit.active{box-shadow:inset 0 0 0 3px #f2c879,0 0 14px #f2c879}
+.pit.origin{box-shadow:inset 0 0 0 3px #7fc6e8,0 0 0 3px #7fc6e8}
+.pit.landed{box-shadow:0 0 0 4px #f2c879}
+.pit.path{box-shadow:0 0 0 3px #e9c46a, 0 0 16px rgba(233,196,106,.8)}
+.pit.cap{box-shadow:0 0 0 4px #ff6b4a,0 0 22px #ff6b4a;animation:capblink .5s ease-in-out 3}
+.pit.threat{box-shadow:0 0 0 3px #ff6b4a;animation:capblink 1.2s ease-in-out infinite}
+.pit.pulse{animation:pulse .25s ease-out}
+.pit.shake{animation:shake .35s}
+@keyframes pulse{50%{transform:scale(1.09)}}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+@keyframes capblink{50%{box-shadow:0 0 0 4px rgba(255,107,74,.2)}}
+
+/* Play */
+.play{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start}
+.setup{max-width:560px}
+.setup label{display:block;font-weight:700;margin:14px 0 4px}
+.setup select{font:16px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--field);color:var(--ink);width:100%}
+.check{display:flex!important;gap:8px;align-items:flex-start;font-weight:400!important}
+.check input{margin-top:5px}
+.side h3{font-size:18px}
+#view-learn{scroll-margin-top:80px}
+#p-log{list-style:none;padding:0;margin:0;max-height:300px;overflow:auto;font-size:14px}
+#p-log li{padding:5px 0;border-bottom:1px dashed var(--line)}
+.banner{background:var(--banner);color:var(--banner-ink);padding:14px 18px;border-radius:12px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.banner p{margin:0;font:700 19px Fraunces,"Noto Serif Bengali",serif}
+.helpers{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;margin-top:10px}
+.helpers label{display:flex;gap:6px;align-items:center}
+select.speed{font:14px "Source Sans 3","Noto Sans Bengali",system-ui,sans-serif;padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--field);color:var(--ink)}
+
+/* Prose pages */
+.prose{max-width:760px}
+.prose h2{font-size:30px}
+.prose h3{font-size:21px;margin-top:1.4em}
+.prose table{border-collapse:collapse;width:100%;font-size:15px}
+.prose td,.prose th{border-bottom:1px solid var(--line);padding:7px 6px;text-align:left;vertical-align:top}
+.rulebox{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:14px 0}
+.rulebox .card{padding:14px 16px}
+.rulebox h4{font-size:17px;margin-bottom:4px}
+.rulebox p{margin:0;font-size:15px}
+.games{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.games .card.soon{opacity:.6;border-style:dashed}
+footer{max-width:1180px;margin:0 auto;padding:0 18px 30px;color:var(--muted);font-size:14px}
+
+@media (min-width:1500px) and (min-height:760px){
+  :root{--pit:min(8.4vh,96px)}
+  body{font-size:19px}
+  main,.top-in{max-width:1500px}
+}
+@media (max-width:900px){
+  .learn{grid-template-columns:minmax(0,1fr)}
+  .learn>*,.lesson-body>*,.play>*{min-width:0}
+  .lessons{position:static}
+  .lessons ol{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+  .lessons li button{white-space:nowrap}
+  .lessons h3,#l-progress{display:none}
+  .lesson-body,.play{grid-template-columns:minmax(0,1fr)}
+  nav{margin-left:0}
+  .prefs{margin-left:auto}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .top-in{padding:8px 12px;gap:8px}
+  main{padding:14px 10px 50px}
+  nav a{padding:6px 10px}
+  .pit .count{min-width:17px;height:17px;font-size:11px;line-height:17px;right:-3px;bottom:-3px}
+  .lesson-head h2{font-size:25px}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-in">
+  <div class="brand">
+    <svg viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="7" width="38" height="26" rx="6" fill="#6f401d"/>
+      <g fill="#2b170b"><circle cx="9" cy="14" r="3.6"/><circle cx="17" cy="14" r="3.6"/><circle cx="25" cy="14" r="3.6"/><circle cx="33" cy="14" r="3.6"/>
+      <circle cx="9" cy="26" r="3.6"/><circle cx="17" cy="26" r="3.6"/><circle cx="25" cy="26" r="3.6"/><circle cx="33" cy="26" r="3.6"/></g>
+      <g fill="#e8e1d2"><circle cx="16" cy="13" r="1.3"/><circle cx="18" cy="15" r="1.3"/><circle cx="25" cy="26" r="1.3"/></g></svg>
+    <div><small data-i18n="brandSmall"></small><span data-i18n="gameName"></span></div>
+  </div>
+  <nav><a href="#learn" data-i18n="nav.learn"></a><a href="#play" data-i18n="nav.play"></a><a href="#rules" data-i18n="nav.rules"></a><a href="#about" data-i18n="nav.about"></a></nav>
+  <div class="prefs">
+    <label><span aria-hidden="true">&#127760;</span><span class="sr" data-i18n="ui.language"></span><select id="lang" aria-label="Language / ভাষা"></select></label>
+    <label><span class="sr" data-i18n="ui.theme"></span><select id="theme" aria-label="Theme">
+      <option value="auto" data-i18n="ui.themeAuto"></option><option value="light" data-i18n="ui.themeLight"></option><option value="dark" data-i18n="ui.themeDark"></option></select></label>
+  </div>
+</div></header>
+
+<main>
+<section id="view-learn" class="learn">
+  <aside class="lessons">
+    <h3 data-i18n="ui.lessons"></h3>
+    <ol id="lesson-list"></ol>
+    <p id="l-progress" class="muted" style="font-size:14px;margin:10px"></p>
+  </aside>
+  <div class="card">
+    <div class="lesson-head"><h2 id="l-title"></h2></div>
+    <div class="lesson-body">
+      <div class="lesson-text">
+        <div id="l-text"></div>
+        <div id="l-cta"></div>
+      </div>
+      <div id="l-boardbox">
+        <div id="l-board"></div>
+        <div class="statusline"><span id="l-msg" class="muted"></span><span id="l-hand" class="hand"></span></div>
+        <div id="l-choice" hidden></div>
+        <div class="task" id="l-task"></div>
+        <div id="l-feedback" class="feedback"></div>
+        <div class="row">
+          <button class="btn small" id="l-reset" data-i18n="ui.reset"></button>
+          <button class="btn small" id="l-hint" data-i18n="ui.hint"></button>
+          <button class="btn small" id="l-demo" data-i18n="ui.showMe"></button>
+          <button class="btn small" id="l-threat" data-i18n="ui.showThreat"></button>
+          <button class="btn small" id="l-skip" data-i18n="ui.skip" hidden></button>
+          <label class="muted" style="font-size:14px;margin-left:auto"><span data-i18n="ui.speed"></span>
+            <select class="speed"><option value="slow" data-i18n="ui.slow"></option><option value="normal" data-i18n="ui.normal"></option><option value="fast" data-i18n="ui.fast"></option><option value="instant" data-i18n="ui.instant"></option></select></label>
+        </div>
+      </div>
+    </div>
+    <div class="lesson-nav">
+      <button class="btn" id="l-prev" data-i18n="ui.prev"></button>
+      <button class="btn primary" id="l-next"></button>
+    </div>
+  </div>
+</section>
+
+<section id="view-play" hidden>
+  <div id="p-setup" class="card setup">
+    <h2 data-i18n="ui.newGame"></h2>
+    <label for="p-mode" data-i18n="ui.opponent"></label>
+    <select id="p-mode">
+      <option value="cpu-easy" data-i18n="ui.cpuEasy"></option>
+      <option value="cpu-medium" data-i18n="ui.cpuMedium" selected></option>
+      <option value="cpu-hard" data-i18n="ui.cpuHard"></option>
+      <option value="2p" data-i18n="ui.twoPlayer"></option>
+    </select>
+    <label for="p-layout" data-i18n="ui.layout"></label>
+    <select id="p-layout">
+      <option value="even" data-i18n="ui.layoutEven"></option>
+      <option value="arrange" data-i18n="ui.layoutArrange"></option>
+      <option value="random" data-i18n="ui.layoutRandom"></option>
+    </select>
+    <label for="p-first" data-i18n="ui.firstMover"></label>
+    <select id="p-first"></select>
+    <label class="check"><input type="checkbox" id="p-fmr" checked> <span data-i18n="ui.fmr"></span></label>
+    <p style="margin-top:20px"><button class="btn primary" id="p-start" data-i18n="ui.start"></button></p>
+  </div>
+
+  <div id="p-game" class="play" hidden>
+    <div>
+      <div id="p-board"></div>
+      <div class="statusline"><span id="p-msg" class="muted"></span><span id="p-hand" class="hand"></span></div>
+      <div id="p-choice" hidden></div>
+      <div id="p-banner" class="banner" hidden></div>
+    </div>
+    <div class="side">
+      <div class="card">
+        <p id="p-status" style="margin-top:0"></p>
+        <div id="p-arrange" class="row">
+          <button class="btn small" id="p-trad" data-i18n="ui.trad"></button>
+          <button class="btn small" id="p-even" data-i18n="ui.even"></button>
+          <button class="btn small" id="p-rand" data-i18n="ui.random"></button>
+          <button class="btn small primary" id="p-done" data-i18n="ui.doneArranging"></button>
+        </div>
+        <div id="p-controls" class="row">
+          <button class="btn small" id="p-hint" data-i18n="ui.hint"></button>
+          <button class="btn small" id="p-undo" data-i18n="ui.undo"></button>
+          <button class="btn small" id="p-skip" data-i18n="ui.skip" hidden></button>
+          <button class="btn small" id="p-new" data-i18n="ui.newGame"></button>
+        </div>
+        <div class="helpers">
+          <label><input type="checkbox" id="p-arrows" checked> <span data-i18n="ui.arrows"></span></label>
+          <label><input type="checkbox" id="p-rev" checked> <span data-i18n="ui.markRev"></span></label>
+          <label><span data-i18n="ui.speed"></span> <select class="speed"><option value="slow" data-i18n="ui.slow"></option><option value="normal" data-i18n="ui.normal"></option><option value="fast" data-i18n="ui.fast"></option><option value="instant" data-i18n="ui.instant"></option></select></label>
+        </div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3 data-i18n="ui.moves"></h3>
+        <ol id="p-log"></ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="view-rules" class="prose" hidden></section>
+<section id="view-about" class="prose" hidden></section>
+</main>
+<footer data-i18n="ui.footer"></footer>
+
+<script>
+// ===== Omweso rules engine =====
+// Players: 0 = South (bottom of screen), 1 = North (top).
+// Each player's 16 pits are a loop indexed 0..15 in ANTICLOCKWISE order:
+//   0..7  = outer row, 8..15 = inner row.
+// Screen rows: 0 = North outer, 1 = North inner, 2 = South inner, 3 = South outer.
+const Omweso = (() => {
+  const REVERSE = new Set([0, 1, 14, 15]); // the four left-hand pits (from each player's own view)
+  const isInner = i => i >= 8;
+
+  function toRC(p, i) {
+    if (p === 0) return i < 8 ? [3, i] : [2, 15 - i];
+    return i < 8 ? [0, 7 - i] : [1, i - 8];
+  }
+  function fromRC(r, c) {
+    if (r === 3) return [0, c];
+    if (r === 2) return [0, 15 - c];
+    if (r === 0) return [1, 7 - c];
+    return [1, c + 8];
+  }
+  // opponent pits [inner, outer] facing my inner pit i
+  function opposite(p, i) {
+    const c = toRC(p, i)[1];
+    const q = 1 - p;
+    return q === 1 ? [fromRC(1, c)[1], fromRC(0, c)[1]] : [fromRC(2, c)[1], fromRC(3, c)[1]];
+  }
+
+  function newState(opts = {}) {
+    return { s: [Array(16).fill(0), Array(16).fill(0)], moves: [0, 0], turn: 0,
+      captured: [0, 0], firstMoveRule: opts.firstMoveRule !== false, endless: false };
+  }
+  function clone(st) {
+    return { s: [st.s[0].slice(), st.s[1].slice()], moves: st.moves.slice(), turn: st.turn,
+      captured: st.captured.slice(), firstMoveRule: st.firstMoveRule, endless: st.endless };
+  }
+  // rows: 4 arrays of 8 numbers, top to bottom as seen on screen
+  function fromRows(rows, opts) {
+    const st = newState(opts);
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 8; c++) {
+      const [p, i] = fromRC(r, c); st.s[p][i] = rows[r][c];
+    }
+    return st;
+  }
+  const sum = a => a.reduce((x, y) => x + y, 0);
+  const legal = (st, p) => st.s[p].map((v, i) => (v >= 2 ? i : -1)).filter(i => i >= 0);
+  const captureAllowed = (st, p) => !(st.firstMoveRule && st.moves[p] === 0);
+
+  function captureTargets(st, p, i, arr = st.s[p]) {
+    if (!isInner(i) || arr[i] < 2) return null;
+    const [a, b] = opposite(p, i), q = 1 - p;
+    return st.s[q][a] > 0 && st.s[q][b] > 0 ? [a, b] : null;
+  }
+  // Would sowing n seeds CLOCKWISE from origin end in a direct capture?
+  function reverseCaptures(st, p, origin, n) {
+    if (!REVERSE.has(origin) || !captureAllowed(st, p)) return false;
+    const arr = st.s[p].slice(); let pos = origin;
+    for (let k = 0; k < n; k++) { pos = (pos + 15) % 16; arr[pos]++; }
+    return !!captureTargets(st, p, pos, arr);
+  }
+
+  // A whole turn as a generator of events. 'choice' events expect next(true) for clockwise.
+  function* turn(st, p, start, maxLaps = 400) {
+    let origin = start, n = st.s[p][start];
+    st.s[p][start] = 0;
+    yield { t: 'pickup', p, i: start, n, first: true };
+    let laps = 0;
+    while (true) {
+      let dir = 1;
+      if (reverseCaptures(st, p, origin, n)) {
+        const rev = yield { t: 'choice', p, origin, n };
+        if (rev) dir = -1;
+      }
+      yield { t: 'lap', p, origin, n, dir };
+      let pos = origin;
+      for (let k = 0; k < n; k++) {
+        pos = (pos + dir + 16) % 16; st.s[p][pos]++;
+        yield { t: 'drop', p, i: pos, left: n - k - 1 };
+      }
+      if (++laps > maxLaps) { st.endless = true; yield { t: 'endless', p }; break; }
+      if (st.s[p][pos] === 1) { yield { t: 'end', p, i: pos }; break; }
+      const cap = captureTargets(st, p, pos);
+      if (cap && captureAllowed(st, p)) {
+        const q = 1 - p, got = st.s[q][cap[0]] + st.s[q][cap[1]];
+        st.s[q][cap[0]] = 0; st.s[q][cap[1]] = 0; st.captured[p] += got;
+        yield { t: 'capture', p, i: pos, q, pits: cap, n: got, origin, dir };
+        n = got; continue; // captured seeds are sown from the pit where this lap began
+      }
+      if (cap) yield { t: 'blocked', p, i: pos };
+      n = st.s[p][pos]; st.s[p][pos] = 0; origin = pos;
+      yield { t: 'pickup', p, i: pos, n };
+    }
+    st.moves[p]++; st.turn = 1 - p;
+  }
+
+  // Run a turn synchronously. choices: array of booleans used in order (default false).
+  function runSync(st, p, start, choices = [], collect = false) {
+    const g = turn(st, p, start); const used = []; const events = [];
+    let r = g.next();
+    let caps = 0, capSeeds = 0, laps = 0, reverse = 0;
+    while (!r.done) {
+      const e = r.value;
+      if (collect) events.push(e);
+      if (e.t === 'capture') { caps++; capSeeds += e.n; }
+      if (e.t === 'lap') { laps++; if (e.dir === -1) reverse++; }
+      if (e.t === 'choice') {
+        const c = used.length < choices.length ? choices[used.length] : false;
+        used.push(c); r = g.next(c);
+      } else r = g.next();
+    }
+    return { st, used, events, caps, capSeeds, laps, reverse };
+  }
+
+  // All distinct full turns for player p: [{start, choices, result}]
+  function enumerate(st, p) {
+    const out = [];
+    for (const start of legal(st, p)) {
+      const stack = [[]];
+      let guard = 0;
+      while (stack.length && guard++ < 64) {
+        const prefix = stack.pop();
+        const res = runSync(clone(st), p, start, prefix);
+        for (let j = prefix.length; j < res.used.length; j++)
+          stack.push(res.used.slice(0, j).concat([true]));
+        out.push({ start, choices: res.used, res });
+      }
+    }
+    return out;
+  }
+
+  function winner(st) { return legal(st, st.turn).length === 0 ? 1 - st.turn : null; }
+
+  // ---- AI ----
+  function evaluate(st, p) {
+    const q = 1 - p;
+    if (st.endless) return 0;
+    if (legal(st, q).length === 0) return 10000;
+    if (legal(st, p).length === 0) return -10000;
+    return sum(st.s[p]) - sum(st.s[q]) + 0.15 * (legal(st, p).length - legal(st, q).length);
+  }
+  function bestMove(st, p, level = 'medium') {
+    const opts = enumerate(st, p);
+    if (!opts.length) return null;
+    const scored = opts.map(o => {
+      let v;
+      const after = o.res.st;
+      if (after.endless) v = -500;
+      else if (level === 'hard' && legal(after, 1 - p).length) {
+        const replies = enumerate(after, 1 - p);
+        let worst = Infinity;
+        for (const r of replies) {
+          const val = r.res.st.endless ? 0 : evaluate(r.res.st, p);
+          if (val < worst) worst = val;
+        }
+        v = worst;
+      } else v = evaluate(after, p);
+      return { ...o, v: v + Math.random() * 0.01 };
+    });
+    scored.sort((a, b) => b.v - a.v);
+    if (level === 'easy') {
+      return Math.random() < 0.4 ? scored[0] : scored[Math.floor(Math.random() * scored.length)];
+    }
+    return scored[0];
+  }
+
+  // Simple AI setup: spread 32 seeds
+  function randomSetup(rng = Math.random) {
+    const a = Array(16).fill(1);
+    let left = 16;
+    while (left--) a[Math.floor(rng() * 16)]++;
+    return a;
+  }
+
+  return { REVERSE, isInner, toRC, fromRC, opposite, newState, clone, fromRows, legal, sum,
+    captureAllowed, captureTargets, reverseCaptures, turn, runSync, enumerate, winner,
+    evaluate, bestMove, randomSetup };
+})();
+
+
+// Puzzle positions: rows top->bottom = [North outer, North inner, South inner, South outer]
+const PUZZLES = {
+  sow: { rows: [
+    [2,0,2,0,1,0,2,0],
+    [0,1,0,0,1,0,0,1],
+    [1,0,0,1,0,0,0,0],
+    [0,0,3,0,0,0,0,0]] },
+  relay: { rows: [
+    [1,0,2,0,0,1,0,2],
+    [0,1,0,1,0,0,1,0],
+    [0,0,0,0,0,0,0,0],
+    [2,0,1,0,3,0,0,0]] },
+  capture: { rows: [
+    [0,2,0,0,0,1,0,1],
+    [1,0,0,1,0,0,0,2],
+    [0,0,0,2,0,0,0,1],
+    [0,0,2,0,0,0,2,0]] },
+  chain: { rows: [
+    [1,0,0,0,2,0,0,1],
+    [1,0,0,0,2,0,0,1],
+    [0,0,2,0,1,0,0,1],
+    [0,0,0,0,0,0,2,0]] },
+  defend: { rows: [
+    [1,0,0,0,1,0,1,0],
+    [0,2,0,1,0,0,0,1],
+    [0,0,0,3,0,0,1,0],
+    [0,0,0,2,0,2,0,2]] },
+  reverse: { rows: [
+    [0,0,2,0,0,2,0,0],
+    [0,1,1,0,1,0,0,1],
+    [0,1,1,0,0,0,0,0],
+    [3,0,0,0,0,2,0,0]] },
+  win: { rows: [
+    [1,0,0,0,2,0,0,0],
+    [0,0,0,0,1,0,1,0],
+    [0,2,0,0,1,0,2,0],
+    [0,0,0,1,0,0,0,1]] },
+};
+
+
+// ===== Translations =====
+// Placeholders like {n} and {pit} are filled in by t(key, params).
+const I18N = {};
+
+I18N.en = {
+  langName: 'English',
+  brandSmall: 'Learn to play', gameName: 'Omweso',
+  nav: { learn: 'Learn', play: 'Play', rules: 'Rules', about: 'About' },
+  ui: {
+    language: 'Language', theme: 'Theme', themeAuto: 'Auto', themeLight: 'Light', themeDark: 'Dark',
+    lessons: 'Lessons', progress: '{n} of {total} done', lessonOf: 'Lesson {k} of {total}',
+    prev: '← Previous', next: 'Next lesson →', finish: 'Finish', playCta: 'Play a game →',
+    reset: 'Reset', hint: 'Hint', showMe: 'Show me', showThreat: 'Show threat', skip: 'Skip animation',
+    speed: 'Speed', slow: 'Slow', normal: 'Normal', fast: 'Fast', instant: 'Instant',
+    north: 'North', south: 'South', southYou: 'South (you)', computerNorth: 'Computer (North)', youSouth: 'You (South)',
+    you: 'You', computer: 'Computer',
+    inner: 'inner', outer: 'outer', captured: 'captured {n}', inHand: 'In hand: {n}',
+    seedsAria: '{side} {pit}: {n} seeds',
+    newGame: 'New game', opponent: 'Opponent', cpuEasy: 'Computer: easy', cpuMedium: 'Computer: medium', cpuHard: 'Computer: hard',
+    twoPlayer: 'Two players on this device', layout: 'Starting layout', layoutEven: 'Quick start: 2 seeds in every pit',
+    layoutArrange: 'Traditional: arrange your own seeds', layoutRandom: 'Random layout for both sides',
+    firstMover: 'Who moves first', byLot: 'By lot (random)', fmr: 'No captures on each player’s first move',
+    start: 'Start game', trad: '4 per outer pit', even: '2 per pit', random: 'Random', doneArranging: 'Done arranging',
+    undo: 'Undo', arrows: 'Sowing arrows', markRev: 'Mark reverse pits', moves: 'Moves',
+    footer: 'Made for learning together. Your lesson progress is saved in this browser only.',
+    comingLater: 'coming later',
+  },
+  anim: {
+    lifted: 'Lifted {n} from {pit}', relay: 'Relay: lifted {n} from {pit}',
+    clockwise: 'Sowing <b>clockwise</b> for a reverse capture',
+    capture: '<b>Capture!</b> {n} seeds taken from {side}’s column &mdash; sowing them from {pit}',
+    blocked: 'That would capture, but no captures are allowed on a first move. Carrying on.',
+    end: 'Last seed fell into an empty pit &mdash; turn over.', endless: 'This sowing never ends!',
+    choiceQ: 'This lap starts on a reverse pit and can go <b>clockwise to capture</b>. Which way?',
+    choiceAnti: '↺ Anticlockwise (normal)', choiceClock: '↻ Clockwise &amp; capture',
+  },
+  learn: {
+    doneBefore: 'You have completed this one. Try it again or move on.', hintPrefix: '<b>Hint:</b> ',
+    notYours: 'Those are North’s pits. You can only sow from your own side (the bottom two rows).',
+    single: 'A single seed can’t be moved. You need a pit with at least two.', empty: 'That pit is empty.',
+    failDefault: 'Not quite. Press Reset and try again.', wellDone: '<b>Well done.</b> ', watch: 'Watch&hellip;',
+    ifNorth: 'If it were North’s turn&hellip;', threatAfter: 'That is the danger. Now make a move that stops it.',
+  },
+  play: {
+    yourTurn: '<b>Your turn.</b> Tap one of your pits with 2 or more seeds.',
+    sideTurn: '<b>{side} to move.</b> Tap one of your pits with 2 or more seeds.',
+    firstMoveNote: '(No captures on your first move.)', thinking: '<b>Computer is thinking&hellip;</b>',
+    arrange: '<b>{who}: arrange your 32 seeds.</b> Tap a pit to lift one seed, then tap another of your pits to drop it.',
+    arranged: '{who} arranged their seeds.', movesFirst: '{who} moves first.', youFirst: 'You move first.',
+    logMove: '<b>{who}</b>: {pit} &middot; {laps} lap(s)', logRev: ' &middot; {n} reverse', logCap: ' &middot; <b>captured {n}</b>',
+    undone: '<i>Move undone.</i>', notYours: 'Those pits are not yours.', single: 'A single seed can’t be moved.', empty: 'That pit is empty.',
+    hint: 'Hint: try <b>{pit}</b>', hintRev: ', and choose clockwise when asked.', hintCap: ' It captures {n} seeds.',
+    endless: 'Endless sowing &mdash; this game is annulled.', sideWins: '{side} wins!',
+    youWin: 'You win! The computer has no pit it can move.', cpuWins: 'The computer wins. You have no pit with two seeds left.',
+    gameOver: '<b>Game over.</b>',
+  },
+  soon: ['Igisoro (Rwanda)', 'Bao la Kujifunza (Swahili coast)'],
+  lessons: {
+    board: { title: 'Meet the board',
+      html: `<p>Omweso is played on a board of <b>32 pits in 4 rows of 8</b>. There are no stores or special pits &mdash; every pit is the same.</p>
+      <p>Each player owns the <b>16 pits on their side</b>: the <b>outer row</b> (nearest you) and the <b>inner row</b> (towards the middle). In this guide you are always <b>South</b>, at the bottom.</p>
+      <p>The game uses <b>64 seeds</b> (in Luganda, <i>empiki</i>), 32 for each player. Your seeds stay on your own side and only leave it if your opponent captures them.</p>
+      <p>The inner row matters most: it is where captures happen, and where you are vulnerable.</p>`,
+      prompt: 'Tap any pit in <b>your inner row</b>.',
+      wrongNorth: 'That pit belongs to North. Yours are the bottom two rows.',
+      wrongOuter: 'That is your outer row. The inner row is the one closer to the middle.',
+      success: 'Exactly. Those 8 pits are your inner row; the 8 below are your outer row.',
+      hint: 'Your pits are the bottom two rows. The inner row is the upper of those two.' },
+    sow: { title: 'Sowing',
+      html: `<p>On your turn, choose one of your pits that holds <b>at least two seeds</b>. Pick them all up and drop them <b>one at a time</b> into the following pits.</p>
+      <p>You always sow <b>anticlockwise</b> around your own 16 pits: to the right along your outer row, up, then to the left along your inner row, and round again. The arrows on the board show the way.</p>
+      <p>A pit with a <b>single seed can never be moved</b>.</p>`,
+      prompt: 'Try tapping a single seed first, then sow the only pit that can move.',
+      success: 'Three seeds, three pits. The last one fell into an empty pit, so the turn is over.',
+      hint: 'Only one of your pits has 2 or more seeds &mdash; the one with 3 in your outer row.' },
+    relay: { title: 'Relay sowing',
+      html: `<p>Here is what makes Omweso exciting. When your last seed lands in a pit that <b>already had seeds</b>, you pick up <b>everything</b> in that pit (including the seed you just dropped) and keep sowing.</p>
+      <p>Each sowing is called a <b>lap</b>. The turn only ends when a lap's last seed falls into an <b>empty pit</b>. One turn can go round the board several times.</p>`,
+      prompt: 'One of your two pits starts a relay. Find it.',
+      fail: 'That lap ended straight away in an empty pit. Reset and try the other one.',
+      success: 'Three laps in one turn. Each time the last seed hit an occupied pit, you lifted that pit and carried on.',
+      hint: 'Count: where would the last seed land? You want it to land on a pit that already has seeds.' },
+    capture: { title: 'Capturing',
+      html: `<p>You capture when the last seed of a lap lands in a pit that meets <b>all three</b> conditions:</p>
+      <ol><li>it is in your <b>inner row</b>,</li><li>it <b>already had seeds</b> (so it would normally relay),</li><li>both of your opponent's pits <b>in the same column</b> (their inner and outer pit) hold seeds.</li></ol>
+      <p>You then take <b>all the seeds from both</b> of those opposing pits. An opponent's column is only at risk when <i>both</i> of its pits are full.</p>`,
+      prompt: 'Make a capture.',
+      fail: 'No capture that time. Look for a move whose last seed lands on an occupied pit of your inner row, opposite a full North column.',
+      success: 'Captured! North’s inner and outer pits in that column are now yours.',
+      hint: 'North’s right-hand column has seeds in both pits. Which of your moves ends opposite it?' },
+    chain: { title: 'Sowing what you capture',
+      html: `<p>Captured seeds go straight back into play on your side. You sow them starting from <b>the pit where the capturing lap began</b> &mdash; the last pit you lifted seeds from, not necessarily the first pit of your turn.</p>
+      <p>That new sowing follows all the usual rules: it can relay, and it can capture again. Strong players chain several captures into a single turn.</p>`,
+      prompt: 'Capture <b>twice</b> in one turn.',
+      fail: 'Not two captures that time. Reset and try the other pit.',
+      success: 'Two captures in one turn, and North is left with only single seeds &mdash; they cannot move, so you win too.',
+      hint: 'Start with the move that captures first, then follow the captured seeds.' },
+    defend: { title: 'Staying safe',
+      html: `<p>The same rule works against you. A column of yours is <b>vulnerable</b> whenever <b>both</b> your inner and outer pit in it hold seeds, and your opponent can end a lap on an occupied pit opposite it.</p>
+      <p>The simplest defence is to <b>empty one of the two pits</b> in the threatened column. Before every move, glance at North's side: where could their last seed land?</p>`,
+      prompt: 'North is threatening one of your columns. Make a move that leaves North <b>no capture</b>. (Press <i>Show threat</i> to see it.)',
+      fail: 'North can still capture after that move. Reset and look again at which column is in danger.',
+      success: 'Safe. That column no longer has seeds in both pits, so North has nothing to capture.',
+      hint: 'Your fourth column has seeds in both pits. Empty one of them.' },
+    reverse: { title: 'Reverse captures',
+      html: `<p>Normally you only sow anticlockwise. The one exception: from your <b>four left-hand pits</b> (the two leftmost pits of each of your rows, marked <span class="rev-chip">&#8635;</span>) you may sow <b>clockwise</b>, but <b>only if that lap ends in a capture</b>.</p>
+      <p>This also works in the middle of a turn: if a relay or a set of captured seeds starts from one of those four pits, you may send that lap clockwise when it captures straight away. It is always your choice, never compulsory.</p>`,
+      prompt: 'Make a capture by sowing <b>clockwise</b>. You will be asked which way to go.',
+      fail: 'No reverse capture that time. Try your pit with 3 seeds, and choose clockwise.',
+      success: 'A reverse capture! Experts love these because they are easy to overlook.',
+      hint: 'Sowing 3 seeds clockwise from your bottom-left pit goes up and into your inner row.' },
+    win: { title: 'Winning',
+      html: `<p>You win when your opponent, at the start of their turn, has <b>no pit with two or more seeds</b>. They might still have several seeds, but single seeds cannot move.</p>
+      <p>So you do not need to capture everything. The aim is to break your opponent's position into scattered singles.</p>`,
+      prompt: 'North only has one pit that can move. Win in one move.',
+      fail: 'North can still move. Which of North’s pits holds 2 seeds, and can you capture it?',
+      success: 'North is left with only single seeds and cannot move. You win!',
+      hint: 'North’s pit with 2 seeds is in a full column. Capture that column.' },
+    setup: { title: 'Setting up and starting',
+      html: `<p>Traditionally each player begins with <b>four seeds in each pit of their outer row</b>, then rearranges all 32 seeds across their 16 pits however they like. The first player is chosen by lot. They arrange first, then the second player arranges, and the first player makes the opening move.</p>
+      <p>Many players agree that <b>neither player may capture on their first move</b>. A move that would capture simply carries on as a normal relay. This guide uses that rule by default; you can switch it off in Play.</p>
+      <h4>Beginner tips</h4>
+      <ul>
+        <li>Before you move, check every column where you have seeds in both rows. Those are your weak spots.</li>
+        <li>Pits with many seeds give long, unpredictable relays. They are powerful but hard to plan.</li>
+        <li>Keep an eye on your four reverse pits. A few seeds there can set up surprise captures.</li>
+        <li>Count before you sow. Experienced players count very fast; beginners should take their time.</li>
+        <li>Use <b>Hint</b> in Play when you are stuck, then try to work out why it suggested that move.</li>
+      </ul>` },
+    variations: { title: 'Variations and customs',
+      html: `<p>Omweso rules vary between regions and sources. A few you may meet:</p>
+      <ul>
+        <li><b>Special wins.</b> Besides the normal win (<i>okwa bulijo</i>), some players count <i>okutema</i> (capturing from all of the opponent's end pits) and <i>akawumbi</i> (capturing from every one of the opponent's pits in a single turn) as bigger wins worth more points. A match is often played to 12 points.</li>
+        <li><b>The three-seed rule.</b> In tournament play, before the first capture, a pit with exactly three seeds sows two into the next pit and one into the pit after.</li>
+        <li><b>Speed play.</b> Modern tournaments allow only about three seconds to start a turn. A move that never ends (an endless relay) gets the game annulled.</li>
+        <li><b>Maximum seeds.</b> One old source limits a pit to ten seeds; expert players do not seem to follow it.</li>
+      </ul>
+      <p>This guide plays the core rules described in these lessons: normal win only, reverse captures, and the optional first-move rule.</p>` },
+  },
+  rulesHTML: `
+  <h2>Omweso rules at a glance</h2>
+  <p>A quick reference to keep open while you play. Work through <a href="#learn">Learn</a> for an interactive walk-through.</p>
+  <div class="rulebox">
+    <div class="card"><h4>Board &amp; seeds</h4><p>4 rows of 8 pits. You own the 16 pits on your side (outer and inner row). 64 seeds, 32 each.</p></div>
+    <div class="card"><h4>Setup</h4><p>Traditionally 4 seeds in each outer pit, then each player rearranges their 32 seeds freely across their 16 pits.</p></div>
+    <div class="card"><h4>Sowing</h4><p>Lift all seeds from one of your pits holding 2 or more. Drop one per pit, anticlockwise around your own 16 pits.</p></div>
+    <div class="card"><h4>Relay</h4><p>If the last seed lands in an occupied pit, lift that whole pit and keep sowing. Stop when the last seed lands in an empty pit.</p></div>
+    <div class="card"><h4>Capture</h4><p>Last seed lands in an occupied pit of <b>your inner row</b>, and <b>both</b> opposing pits in that column hold seeds: take them all.</p></div>
+    <div class="card"><h4>Resow captures</h4><p>Sow the captured seeds from the pit where the capturing lap began. They can relay and capture again.</p></div>
+    <div class="card"><h4>Reverse capture</h4><p>From your four left-hand pits a lap may go clockwise, but only if it captures straight away. Also allowed mid-turn.</p></div>
+    <div class="card"><h4>Winning</h4><p>Your opponent loses when, on their turn, no pit of theirs holds 2 or more seeds.</p></div>
+  </div>
+  <h3>Words you will hear</h3>
+  <table>
+    <tr><th>Omweso</th><td>Both the game and the board itself.</td></tr>
+    <tr><th>Empiki</th><td>The seeds (counters).</td></tr>
+    <tr><th>Okwa bulijo</th><td>An ordinary win: the opponent cannot move.</td></tr>
+    <tr><th>Okutema</th><td>A special win: capturing from all of the opponent's end pits.</td></tr>
+    <tr><th>Akawumbi</th><td>A big special win: capturing from every one of the opponent's pits in one turn.</td></tr>
+    <tr><th>Lap</th><td>One sowing of a handful of seeds. A turn can have many laps.</td></tr>
+  </table>
+  <h3>How this guide applies the rules</h3>
+  <p>Sources differ on some details. This guide uses the common core rules:</p>
+  <ul>
+    <li>Captured seeds are sown starting from the pit where the capturing lap began (the first seed goes into the next pit along).</li>
+    <li>Any lap that starts on one of your four left-hand pits (a first move, a relay or captured seeds) may go clockwise if it ends in a direct capture. You always choose.</li>
+    <li>The first-move rule (no captures on each player's first move) is on by default and can be switched off.</li>
+    <li>Only the normal win is scored. Special wins and the tournament three-seed rule are described in <a href="#learn">Lesson 10</a> but not played.</li>
+    <li>If a turn would sow forever, the game is annulled, as in tournaments.</li>
+  </ul>`,
+  aboutHTML: `
+  <h2>About Omweso</h2>
+  <p>Omweso is the traditional mancala game of Uganda, often called its national board game. Like other mancala games it is a game of "sowing" and "capturing" seeds, but with four rows and multi-lap relay sowing it is among the deepest of the family. Close relatives include <b>Igisoro</b> in Rwanda and <b>Bao</b> on the Swahili coast.</p>
+  <p>The explorer John Hanning Speke described the game in 1862, and R. S. Shackell set out its rules for European readers in 1934. The finest player of the 19th century is remembered as Mukasa, who served as Katikkiro (prime minister) under Kabaka Mutesa I and Mwanga II. James S. Coleman's 1970 study <i>Omweso, a Game People Play in Uganda</i> records the rules, terms and customs of the game in Buganda.</p>
+  <p>Today the game is played in homes, in the street and in organised tournaments, where turns can be blisteringly fast.</p>
+  <h3>Other games for this board</h3>
+  <p>This guide is built so more games played on a 4&times;8 board can be added later, each with its own lessons and computer opponent.</p>
+  {GAMES}
+  <h3>Sources</h3>
+  {SOURCES}`,
+  availableNow: 'Uganda &middot; available now',
+};
+
+I18N.bn = {
+  langName: 'বাংলা',
+  brandSmall: 'খেলা শিখুন', gameName: 'ওমওয়েসো',
+  nav: { learn: 'শিখুন', play: 'খেলুন', rules: 'নিয়ম', about: 'পরিচিতি' },
+  ui: {
+    language: 'ভাষা', theme: 'থিম', themeAuto: 'স্বয়ংক্রিয়', themeLight: 'হালকা', themeDark: 'গাঢ়',
+    lessons: 'পাঠসমূহ', progress: '{total}টির মধ্যে {n}টি শেষ', lessonOf: 'পাঠ {k} / {total}',
+    prev: '← আগের পাঠ', next: 'পরের পাঠ →', finish: 'শেষ', playCta: 'একটি খেলা খেলুন →',
+    reset: 'আবার শুরু', hint: 'ইঙ্গিত', showMe: 'দেখাও', showThreat: 'বিপদ দেখাও', skip: 'অ্যানিমেশন বাদ দাও',
+    speed: 'গতি', slow: 'ধীর', normal: 'স্বাভাবিক', fast: 'দ্রুত', instant: 'তাৎক্ষণিক',
+    north: 'উত্তর', south: 'দক্ষিণ', southYou: 'দক্ষিণ (আপনি)', computerNorth: 'কম্পিউটার (উত্তর)', youSouth: 'আপনি (দক্ষিণ)',
+    you: 'আপনি', computer: 'কম্পিউটার',
+    inner: 'ভেতরের', outer: 'বাইরের', captured: '{n}টি দখল', inHand: 'হাতে: {n}',
+    seedsAria: '{side} {pit}: {n}টি বীজ',
+    newGame: 'নতুন খেলা', opponent: 'প্রতিপক্ষ', cpuEasy: 'কম্পিউটার: সহজ', cpuMedium: 'কম্পিউটার: মাঝারি', cpuHard: 'কম্পিউটার: কঠিন',
+    twoPlayer: 'একই ডিভাইসে দুজন খেলোয়াড়', layout: 'শুরুর সাজানো', layoutEven: 'দ্রুত শুরু: প্রতিটি গর্তে ২টি বীজ',
+    layoutArrange: 'ঐতিহ্যবাহী: নিজের বীজ নিজে সাজান', layoutRandom: 'দুই দিকেই এলোমেলো সাজানো',
+    firstMover: 'প্রথম চাল কে দেবে', byLot: 'লটারিতে (এলোমেলো)', fmr: 'প্রত্যেক খেলোয়াড়ের প্রথম চালে দখল নিষেধ',
+    start: 'খেলা শুরু', trad: 'বাইরের প্রতি গর্তে ৪টি', even: 'প্রতি গর্তে ২টি', random: 'এলোমেলো', doneArranging: 'সাজানো শেষ',
+    undo: 'ফিরিয়ে নাও', arrows: 'বপনের তীর', markRev: 'উল্টো-গর্ত চিহ্নিত করো', moves: 'চালসমূহ',
+    footer: 'একসাথে শেখার জন্য তৈরি। আপনার পাঠের অগ্রগতি শুধু এই ব্রাউজারেই সংরক্ষিত থাকে।',
+    comingLater: 'পরে আসছে',
+  },
+  anim: {
+    lifted: '{pit} থেকে {n}টি তোলা হলো', relay: 'রিলে: {pit} থেকে {n}টি তোলা হলো',
+    clockwise: 'উল্টো দখলের জন্য <b>ঘড়ির কাঁটার দিকে</b> বপন',
+    capture: '<b>দখল!</b> {side}-এর সারি থেকে {n}টি বীজ নেওয়া হলো &mdash; এবার {pit} থেকে বপন',
+    blocked: 'এতে দখল হতো, কিন্তু প্রথম চালে দখল নিষেধ। বপন চলছে।',
+    end: 'শেষ বীজটি খালি গর্তে পড়েছে &mdash; চাল শেষ।', endless: 'এই বপন কখনো শেষ হয় না!',
+    choiceQ: 'এই পাকটি একটি উল্টো-গর্ত থেকে শুরু, তাই <b>ঘড়ির কাঁটার দিকে গিয়ে দখল</b> করা যায়। কোন দিকে যাবেন?',
+    choiceAnti: '↺ ঘড়ির কাঁটার বিপরীতে (স্বাভাবিক)', choiceClock: '↻ ঘড়ির কাঁটার দিকে ও দখল',
+  },
+  learn: {
+    doneBefore: 'এটি আপনি শেষ করেছেন। আবার চেষ্টা করুন বা পরের পাঠে যান।', hintPrefix: '<b>ইঙ্গিত:</b> ',
+    notYours: 'ওগুলো উত্তরের গর্ত। আপনি শুধু নিজের দিক (নিচের দুই সারি) থেকে বপন করতে পারেন।',
+    single: 'একটিমাত্র বীজ সরানো যায় না। অন্তত দুটি বীজ আছে এমন গর্ত লাগবে।', empty: 'গর্তটি খালি।',
+    failDefault: 'হয়নি। "আবার শুরু" চেপে আবার চেষ্টা করুন।', wellDone: '<b>দারুণ!</b> ', watch: 'দেখুন&hellip;',
+    ifNorth: 'যদি এখন উত্তরের পালা হতো&hellip;', threatAfter: 'এটাই বিপদ। এবার এমন চাল দিন যাতে এটা আটকানো যায়।',
+  },
+  play: {
+    yourTurn: '<b>আপনার পালা।</b> ২ বা তার বেশি বীজ আছে এমন একটি গর্তে চাপুন।',
+    sideTurn: '<b>{side}-এর পালা।</b> ২ বা তার বেশি বীজ আছে এমন একটি গর্তে চাপুন।',
+    firstMoveNote: '(প্রথম চালে দখল নিষেধ।)', thinking: '<b>কম্পিউটার ভাবছে&hellip;</b>',
+    arrange: '<b>{who}: আপনার ৩২টি বীজ সাজান।</b> একটি গর্তে চেপে একটি বীজ তুলুন, তারপর নিজের আরেকটি গর্তে চেপে রাখুন।',
+    arranged: '{who} বীজ সাজিয়েছে।', movesFirst: '{who} প্রথম চাল দেবে।', youFirst: 'আপনি প্রথম চাল দেবেন।',
+    logMove: '<b>{who}</b>: {pit} &middot; {laps} পাক', logRev: ' &middot; {n}টি উল্টো', logCap: ' &middot; <b>{n}টি দখল</b>',
+    undone: '<i>চাল ফিরিয়ে নেওয়া হলো।</i>', notYours: 'ওই গর্তগুলো আপনার নয়।', single: 'একটিমাত্র বীজ সরানো যায় না।', empty: 'গর্তটি খালি।',
+    hint: 'ইঙ্গিত: <b>{pit}</b> চেষ্টা করুন', hintRev: ', আর জিজ্ঞেস করলে ঘড়ির কাঁটার দিক বেছে নিন।', hintCap: ' এতে {n}টি বীজ দখল হবে।',
+    endless: 'অশেষ বপন &mdash; এই খেলা বাতিল।', sideWins: '{side} জিতেছে!',
+    youWin: 'আপনি জিতেছেন! কম্পিউটারের সরানোর মতো কোনো গর্ত নেই।', cpuWins: 'কম্পিউটার জিতেছে। আপনার দুটি বীজওয়ালা কোনো গর্ত বাকি নেই।',
+    gameOver: '<b>খেলা শেষ।</b>',
+  },
+  soon: ['ইগিসোরো (রুয়ান্ডা)', 'বাও লা কুজিফুনজা (সোয়াহিলি উপকূল)'],
+  lessons: {
+    board: { title: 'বোর্ডের সাথে পরিচয়',
+      html: `<p>ওমওয়েসো খেলা হয় এমন একটি বোর্ডে যেখানে <b>৮টি করে ৪ সারিতে মোট ৩২টি গর্ত</b>। কোনো ভান্ডার বা বিশেষ গর্ত নেই &mdash; সব গর্ত একই রকম।</p>
+      <p>প্রত্যেক খেলোয়াড়ের <b>নিজের দিকে ১৬টি গর্ত</b>: <b>বাইরের সারি</b> (আপনার সবচেয়ে কাছে) আর <b>ভেতরের সারি</b> (মাঝের দিকে)। এই গাইডে আপনি সবসময় <b>দক্ষিণ</b>, অর্থাৎ নিচের দিকে।</p>
+      <p>খেলায় থাকে <b>৬৪টি বীজ</b> (লুগান্ডা ভাষায় <i>এম্পিকি</i>), প্রত্যেকের ৩২টি। আপনার বীজ আপনার দিকেই থাকে; প্রতিপক্ষ দখল করলে তবেই অন্য দিকে যায়।</p>
+      <p>ভেতরের সারিটাই সবচেয়ে গুরুত্বপূর্ণ: দখল এখানেই হয়, আর আপনার ঝুঁকিও এখানেই।</p>`,
+      prompt: '<b>আপনার ভেতরের সারির</b> যেকোনো গর্তে চাপুন।',
+      wrongNorth: 'ওই গর্তটি উত্তরের। আপনার গর্ত নিচের দুই সারিতে।',
+      wrongOuter: 'ওটা আপনার বাইরের সারি। ভেতরের সারি মাঝের দিকে।',
+      success: 'ঠিক তাই। ওই ৮টি গর্ত আপনার ভেতরের সারি; নিচের ৮টি বাইরের সারি।',
+      hint: 'আপনার গর্ত নিচের দুই সারিতে। ভেতরের সারি সেই দুটির ওপরেরটি।' },
+    sow: { title: 'বপন',
+      html: `<p>নিজের পালায় এমন একটি গর্ত বেছে নিন যাতে <b>অন্তত দুটি বীজ</b> আছে। সব বীজ তুলে নিন, তারপর পরের গর্তগুলোতে <b>একটি একটি করে</b> রাখুন।</p>
+      <p>বপন সবসময় হয় নিজের ১৬টি গর্ত ঘিরে <b>ঘড়ির কাঁটার বিপরীত দিকে</b>: বাইরের সারি ধরে ডানে, তারপর ওপরে উঠে ভেতরের সারি ধরে বাঁয়ে, তারপর আবার ঘুরে। বোর্ডের তীরগুলো পথ দেখায়।</p>
+      <p><b>একটিমাত্র বীজওয়ালা গর্ত কখনো সরানো যায় না।</b></p>`,
+      prompt: 'আগে একটি একক বীজে চেপে দেখুন, তারপর যে একটিমাত্র গর্ত সরানো যায় সেটি বপন করুন।',
+      success: 'তিনটি বীজ, তিনটি গর্ত। শেষ বীজটি খালি গর্তে পড়েছে, তাই চাল শেষ।',
+      hint: 'আপনার মাত্র একটি গর্তে ২ বা তার বেশি বীজ আছে &mdash; বাইরের সারিতে ৩টি বীজওয়ালাটি।' },
+    relay: { title: 'রিলে বপন',
+      html: `<p>এখানেই ওমওয়েসোর আসল মজা। শেষ বীজটি যদি এমন গর্তে পড়ে যেখানে <b>আগে থেকেই বীজ ছিল</b>, তাহলে সেই গর্তের <b>সব বীজ</b> (এইমাত্র রাখা বীজসহ) তুলে নিয়ে বপন চালিয়ে যান।</p>
+      <p>প্রতিবার বপনকে বলে একটি <b>পাক</b>। কোনো পাকের শেষ বীজ <b>খালি গর্তে</b> পড়লে তবেই চাল শেষ হয়। এক চালেই বোর্ড কয়েকবার ঘুরে আসা সম্ভব।</p>`,
+      prompt: 'আপনার দুটি গর্তের একটি রিলে শুরু করে। সেটি খুঁজে বের করুন।',
+      fail: 'ওই পাক সাথে সাথেই খালি গর্তে শেষ হয়ে গেছে। আবার শুরু করে অন্যটি চেষ্টা করুন।',
+      success: 'এক চালে তিন পাক। প্রতিবার শেষ বীজ ভরা গর্তে পড়েছে, আর আপনি সেটি তুলে চালিয়ে গেছেন।',
+      hint: 'গুনে দেখুন: শেষ বীজটি কোথায় পড়বে? আপনি চান সেটি এমন গর্তে পড়ুক যেখানে আগে থেকেই বীজ আছে।' },
+    capture: { title: 'দখল করা',
+      html: `<p>কোনো পাকের শেষ বীজ এমন গর্তে পড়লে দখল হয় যা <b>তিনটি শর্তই</b> পূরণ করে:</p>
+      <ol><li>গর্তটি আপনার <b>ভেতরের সারিতে</b>,</li><li>সেখানে <b>আগে থেকেই বীজ ছিল</b> (তাই সাধারণত রিলে হতো),</li><li><b>একই কলামে</b> প্রতিপক্ষের দুটি গর্তেই (তাদের ভেতরের ও বাইরের) বীজ আছে।</li></ol>
+      <p>তখন আপনি প্রতিপক্ষের ওই <b>দুটি গর্তের সব বীজ</b> নিয়ে নেন। প্রতিপক্ষের কোনো কলাম তখনই ঝুঁকিতে যখন তার <i>দুটি</i> গর্তেই বীজ আছে।</p>`,
+      prompt: 'একটি দখল করুন।',
+      fail: 'এবার দখল হয়নি। এমন চাল খুঁজুন যার শেষ বীজ উত্তরের ভরা কলামের সামনে, আপনার ভেতরের সারির ভরা গর্তে পড়ে।',
+      success: 'দখল! ওই কলামে উত্তরের ভেতরের ও বাইরের গর্তের বীজ এখন আপনার।',
+      hint: 'উত্তরের ডানদিকের কলামের দুটি গর্তেই বীজ আছে। আপনার কোন চাল ঠিক তার সামনে শেষ হয়?' },
+    chain: { title: 'দখল করা বীজ বপন',
+      html: `<p>দখল করা বীজ সাথে সাথেই আপনার দিকে আবার খেলায় আসে। সেগুলো বপন শুরু হয় <b>যে গর্ত থেকে দখলের পাকটি শুরু হয়েছিল</b> সেখান থেকে &mdash; অর্থাৎ শেষবার যে গর্ত থেকে বীজ তুলেছিলেন, চালের একদম প্রথম গর্ত নাও হতে পারে।</p>
+      <p>এই নতুন বপনেও সব সাধারণ নিয়ম খাটে: রিলে হতে পারে, আবার দখলও হতে পারে। দক্ষ খেলোয়াড়েরা এক চালেই একাধিক দখল জুড়ে দেন।</p>`,
+      prompt: 'এক চালে <b>দুবার</b> দখল করুন।',
+      fail: 'এবার দুবার দখল হয়নি। আবার শুরু করে অন্য গর্তটি চেষ্টা করুন।',
+      success: 'এক চালে দুটি দখল, আর উত্তরের কাছে শুধু একক বীজ রইল &mdash; তারা চাল দিতে পারবে না, তাই আপনি জিতেও গেলেন।',
+      hint: 'যে চালে প্রথম দখল হয় সেটি দিয়ে শুরু করুন, তারপর দখল করা বীজগুলো অনুসরণ করুন।' },
+    defend: { title: 'নিরাপদ থাকা',
+      html: `<p>একই নিয়ম আপনার বিরুদ্ধেও খাটে। আপনার কোনো কলাম <b>ঝুঁকিতে</b> থাকে যখন তার ভেতরের ও বাইরের <b>দুটি</b> গর্তেই বীজ আছে, আর প্রতিপক্ষ তার সামনে কোনো ভরা গর্তে পাক শেষ করতে পারে।</p>
+      <p>সবচেয়ে সহজ রক্ষা হলো বিপদে থাকা কলামের <b>দুটি গর্তের একটি খালি করা</b>। প্রতিটি চালের আগে উত্তরের দিকে একবার তাকান: তাদের শেষ বীজ কোথায় পড়তে পারে?</p>`,
+      prompt: 'উত্তর আপনার একটি কলাম দখলের হুমকি দিচ্ছে। এমন চাল দিন যাতে উত্তরের <b>কোনো দখল</b> না থাকে। (দেখতে <i>বিপদ দেখাও</i> চাপুন।)',
+      fail: 'ওই চালের পরেও উত্তর দখল করতে পারে। আবার শুরু করে দেখুন কোন কলাম বিপদে।',
+      success: 'নিরাপদ। ওই কলামের দুই গর্তে আর বীজ নেই, তাই উত্তরের দখলের কিছু নেই।',
+      hint: 'আপনার চতুর্থ কলামের দুটি গর্তেই বীজ আছে। একটি খালি করুন।' },
+    reverse: { title: 'উল্টো দখল',
+      html: `<p>সাধারণত আপনি শুধু ঘড়ির কাঁটার বিপরীতে বপন করেন। একমাত্র ব্যতিক্রম: আপনার <b>বাঁদিকের চারটি গর্ত</b> (প্রতিটি সারির সবচেয়ে বাঁয়ের দুটি, <span class="rev-chip">&#8635;</span> চিহ্ন দেওয়া) থেকে <b>ঘড়ির কাঁটার দিকে</b> বপন করা যায়, তবে <b>শুধু যদি সেই পাকটি দখলে শেষ হয়</b>।</p>
+      <p>চালের মাঝখানেও এটি খাটে: কোনো রিলে বা দখল করা বীজের বপন যদি ওই চারটি গর্তের একটি থেকে শুরু হয়, আর সাথে সাথেই দখল হয়, তবে সেই পাক ঘড়ির কাঁটার দিকে পাঠাতে পারেন। এটা সবসময় আপনার ইচ্ছা, কখনো বাধ্যতামূলক নয়।</p>`,
+      prompt: '<b>ঘড়ির কাঁটার দিকে</b> বপন করে একটি দখল করুন। কোন দিকে যাবেন তা জিজ্ঞেস করা হবে।',
+      fail: 'এবার উল্টো দখল হয়নি। ৩টি বীজওয়ালা গর্তটি চেষ্টা করুন আর ঘড়ির কাঁটার দিক বেছে নিন।',
+      success: 'উল্টো দখল! দক্ষ খেলোয়াড়েরা এটা খুব পছন্দ করেন, কারণ সহজেই চোখ এড়িয়ে যায়।',
+      hint: 'নিচের-বাঁয়ের গর্ত থেকে ৩টি বীজ ঘড়ির কাঁটার দিকে বপন করলে সেগুলো ওপরে উঠে ভেতরের সারিতে যায়।' },
+    win: { title: 'জেতা',
+      html: `<p>প্রতিপক্ষের পালা শুরুর সময় যদি তার <b>দুই বা তার বেশি বীজওয়ালা কোনো গর্ত না থাকে</b>, তাহলে আপনি জিতবেন। তাদের হাতে বেশ কিছু বীজ থাকতে পারে, কিন্তু একক বীজ সরানো যায় না।</p>
+      <p>তাই সব কিছু দখল করার দরকার নেই। লক্ষ্য হলো প্রতিপক্ষের অবস্থান ভেঙে ছড়ানো একক বীজে পরিণত করা।</p>`,
+      prompt: 'উত্তরের মাত্র একটি গর্ত সরানো যায়। এক চালে জিতুন।',
+      fail: 'উত্তর এখনো চাল দিতে পারে। উত্তরের কোন গর্তে ২টি বীজ আছে, আর আপনি কি সেটা দখল করতে পারেন?',
+      success: 'উত্তরের কাছে শুধু একক বীজ রইল, তারা চাল দিতে পারে না। আপনি জিতেছেন!',
+      hint: 'উত্তরের ২টি বীজওয়ালা গর্তটি একটি ভরা কলামে। ওই কলামটি দখল করুন।' },
+    setup: { title: 'সাজানো ও শুরু করা',
+      html: `<p>ঐতিহ্য অনুযায়ী প্রত্যেক খেলোয়াড় শুরু করেন <b>বাইরের সারির প্রতিটি গর্তে চারটি করে বীজ</b> দিয়ে, তারপর ৩২টি বীজ নিজের ১৬টি গর্তে ইচ্ছামতো নতুন করে সাজান। লটারিতে প্রথম খেলোয়াড় ঠিক হয়। তিনি আগে সাজান, তারপর দ্বিতীয় খেলোয়াড় সাজান, আর প্রথম খেলোয়াড় প্রথম চাল দেন।</p>
+      <p>অনেকে একমত হন যে <b>কোনো খেলোয়াড় তার প্রথম চালে দখল করতে পারবেন না</b>। যে চালে দখল হতো, সেটি সাধারণ রিলে হিসেবে চলতে থাকে। এই গাইডে নিয়মটি আগে থেকেই চালু থাকে; "খেলুন" অংশে বন্ধ করতে পারেন।</p>
+      <h4>নতুনদের জন্য পরামর্শ</h4>
+      <ul>
+        <li>চাল দেওয়ার আগে দেখে নিন কোন কোন কলামের দুই সারিতেই আপনার বীজ আছে। সেগুলোই আপনার দুর্বল জায়গা।</li>
+        <li>অনেক বীজওয়ালা গর্ত লম্বা, অপ্রত্যাশিত রিলে তৈরি করে। শক্তিশালী, কিন্তু পরিকল্পনা করা কঠিন।</li>
+        <li>আপনার চারটি উল্টো-গর্তের দিকে নজর রাখুন। সেখানে কয়েকটি বীজ থাকলে হঠাৎ দখলের সুযোগ তৈরি হয়।</li>
+        <li>বপনের আগে গুনে নিন। অভিজ্ঞরা খুব দ্রুত গোনেন; নতুনেরা সময় নিন।</li>
+        <li>আটকে গেলে "খেলুন" অংশে <b>ইঙ্গিত</b> ব্যবহার করুন, তারপর বোঝার চেষ্টা করুন কেন সেই চালটি বলা হলো।</li>
+      </ul>` },
+    variations: { title: 'ভিন্নতা ও প্রথা',
+      html: `<p>অঞ্চল ও সূত্রভেদে ওমওয়েসোর নিয়মে ভিন্নতা আছে। কয়েকটি যা আপনি দেখতে পারেন:</p>
+      <ul>
+        <li><b>বিশেষ জয়।</b> সাধারণ জয় (<i>ওকোয়া বুলিজো</i>) ছাড়াও কেউ কেউ <i>ওকুতেমা</i> (প্রতিপক্ষের সব প্রান্তের গর্ত থেকে দখল) আর <i>আকাউম্বি</i> (এক চালে প্রতিপক্ষের প্রতিটি গর্ত থেকে দখল) বড় জয় হিসেবে বেশি পয়েন্ট দেন। একটি ম্যাচ প্রায়ই ১২ পয়েন্ট পর্যন্ত খেলা হয়।</li>
+        <li><b>তিন-বীজের নিয়ম।</b> প্রতিযোগিতায়, প্রথম দখলের আগে, ঠিক তিনটি বীজওয়ালা গর্ত পরের গর্তে দুটি আর তার পরেরটিতে একটি বীজ রাখে।</li>
+        <li><b>দ্রুত খেলা।</b> আধুনিক প্রতিযোগিতায় চাল শুরু করতে মাত্র প্রায় তিন সেকেন্ড সময় দেওয়া হয়। যে চাল কখনো শেষ হয় না (অশেষ রিলে), তাতে খেলা বাতিল হয়।</li>
+        <li><b>সর্বোচ্চ বীজ।</b> একটি পুরোনো সূত্র অনুযায়ী এক গর্তে দশটির বেশি বীজ রাখা যায় না; দক্ষ খেলোয়াড়েরা তা মানেন বলে মনে হয় না।</li>
+      </ul>
+      <p>এই গাইডে পাঠগুলোতে বর্ণিত মূল নিয়মে খেলা হয়: শুধু সাধারণ জয়, উল্টো দখল, আর ঐচ্ছিক প্রথম-চালের নিয়ম।</p>` },
+  },
+  rulesHTML: `
+  <h2>এক নজরে ওমওয়েসোর নিয়ম</h2>
+  <p>খেলার সময় খুলে রাখার মতো সংক্ষিপ্ত নির্দেশিকা। ধাপে ধাপে শিখতে <a href="#learn">শিখুন</a> অংশে যান।</p>
+  <div class="rulebox">
+    <div class="card"><h4>বোর্ড ও বীজ</h4><p>৮টি করে ৪ সারি গর্ত। আপনার দিকের ১৬টি গর্ত আপনার (বাইরের ও ভেতরের সারি)। ৬৪টি বীজ, প্রত্যেকের ৩২টি।</p></div>
+    <div class="card"><h4>সাজানো</h4><p>ঐতিহ্য অনুযায়ী বাইরের প্রতিটি গর্তে ৪টি বীজ, তারপর প্রত্যেকে নিজের ৩২টি বীজ ১৬টি গর্তে ইচ্ছামতো সাজান।</p></div>
+    <div class="card"><h4>বপন</h4><p>২ বা তার বেশি বীজওয়ালা নিজের একটি গর্তের সব বীজ তুলুন। নিজের ১৬টি গর্ত ঘিরে ঘড়ির কাঁটার বিপরীতে প্রতি গর্তে একটি করে রাখুন।</p></div>
+    <div class="card"><h4>রিলে</h4><p>শেষ বীজ ভরা গর্তে পড়লে সেই গর্তের সব বীজ তুলে বপন চালিয়ে যান। শেষ বীজ খালি গর্তে পড়লে থামুন।</p></div>
+    <div class="card"><h4>দখল</h4><p>শেষ বীজ <b>আপনার ভেতরের সারির</b> ভরা গর্তে পড়ল, আর সেই কলামে প্রতিপক্ষের <b>দুটি</b> গর্তেই বীজ আছে: সব নিয়ে নিন।</p></div>
+    <div class="card"><h4>দখলের বীজ বপন</h4><p>দখলের পাক যে গর্ত থেকে শুরু হয়েছিল সেখান থেকে দখল করা বীজ বপন করুন। এতে আবার রিলে ও দখল হতে পারে।</p></div>
+    <div class="card"><h4>উল্টো দখল</h4><p>বাঁদিকের চারটি গর্ত থেকে কোনো পাক ঘড়ির কাঁটার দিকে যেতে পারে, তবে শুধু যদি সাথে সাথেই দখল হয়। চালের মাঝখানেও চলে।</p></div>
+    <div class="card"><h4>জেতা</h4><p>প্রতিপক্ষের পালায় তার কোনো গর্তে ২ বা তার বেশি বীজ না থাকলে সে হারে।</p></div>
+  </div>
+  <h3>যে শব্দগুলো শুনবেন</h3>
+  <table>
+    <tr><th>ওমওয়েসো (Omweso)</th><td>খেলাটি এবং বোর্ড দুটোই।</td></tr>
+    <tr><th>এম্পিকি (Empiki)</th><td>বীজগুলো (গুটি)।</td></tr>
+    <tr><th>ওকোয়া বুলিজো (Okwa bulijo)</th><td>সাধারণ জয়: প্রতিপক্ষ চাল দিতে পারে না।</td></tr>
+    <tr><th>ওকুতেমা (Okutema)</th><td>বিশেষ জয়: প্রতিপক্ষের সব প্রান্তের গর্ত থেকে দখল।</td></tr>
+    <tr><th>আকাউম্বি (Akawumbi)</th><td>বড় বিশেষ জয়: এক চালে প্রতিপক্ষের প্রতিটি গর্ত থেকে দখল।</td></tr>
+    <tr><th>পাক</th><td>এক মুঠো বীজের একবারের বপন। এক চালে অনেক পাক থাকতে পারে।</td></tr>
+  </table>
+  <h3>এই গাইড নিয়মগুলো যেভাবে প্রয়োগ করে</h3>
+  <p>কিছু খুঁটিনাটিতে সূত্রভেদে পার্থক্য আছে। এই গাইড প্রচলিত মূল নিয়ম মেনে চলে:</p>
+  <ul>
+    <li>দখল করা বীজ বপন শুরু হয় দখলের পাক যে গর্ত থেকে শুরু হয়েছিল সেখান থেকে (প্রথম বীজটি পড়ে তার পরের গর্তে)।</li>
+    <li>বাঁদিকের চারটি গর্তের কোনোটি থেকে শুরু হওয়া যেকোনো পাক (প্রথম চাল, রিলে বা দখলের বীজ) সরাসরি দখলে শেষ হলে ঘড়ির কাঁটার দিকে যেতে পারে। সিদ্ধান্ত সবসময় আপনার।</li>
+    <li>প্রথম-চালের নিয়ম (প্রত্যেকের প্রথম চালে দখল নিষেধ) আগে থেকে চালু থাকে, বন্ধ করা যায়।</li>
+    <li>শুধু সাধারণ জয় গণনা হয়। বিশেষ জয় ও প্রতিযোগিতার তিন-বীজের নিয়ম <a href="#learn">পাঠ ১০</a>-এ বর্ণিত, তবে খেলায় নেই।</li>
+    <li>কোনো চাল অনন্তকাল চলতে থাকলে প্রতিযোগিতার মতোই খেলা বাতিল হয়।</li>
+  </ul>`,
+  aboutHTML: `
+  <h2>ওমওয়েসো পরিচিতি</h2>
+  <p>ওমওয়েসো উগান্ডার ঐতিহ্যবাহী মানকালা খেলা, যাকে প্রায়ই দেশটির জাতীয় বোর্ড খেলা বলা হয়। অন্যান্য মানকালা খেলার মতো এটিও বীজ "বপন" আর "দখলের" খেলা, তবে চার সারি আর বহু-পাকের রিলে বপনের কারণে এটি এই পরিবারের সবচেয়ে গভীর খেলাগুলোর একটি। এর নিকট আত্মীয় রুয়ান্ডার <b>ইগিসোরো</b> আর সোয়াহিলি উপকূলের <b>বাও</b>।</p>
+  <p>অভিযাত্রী জন হ্যানিং স্পিক ১৮৬২ সালে খেলাটির বর্ণনা দেন, আর আর. এস. শ্যাকেল ১৯৩৪ সালে ইউরোপীয় পাঠকদের জন্য এর নিয়ম লেখেন। উনিশ শতকের সেরা খেলোয়াড় হিসেবে স্মরণ করা হয় মুকাসাকে, যিনি কাবাকা মুতেসা প্রথম ও মোয়াঙ্গা দ্বিতীয়ের অধীনে কাতিক্কিরো (প্রধানমন্ত্রী) ছিলেন। জেমস এস. কোলম্যানের ১৯৭০ সালের গবেষণা <i>Omweso, a Game People Play in Uganda</i>-তে বুগান্ডায় খেলাটির নিয়ম, পরিভাষা ও প্রথা লিপিবদ্ধ আছে।</p>
+  <p>আজ খেলাটি ঘরে, রাস্তায় আর সংগঠিত প্রতিযোগিতায় খেলা হয়, যেখানে চাল হয় চোখের পলকে।</p>
+  <h3>এই বোর্ডের অন্যান্য খেলা</h3>
+  <p>এই গাইড এমনভাবে তৈরি যাতে পরে ৪&times;৮ বোর্ডের আরও খেলা যোগ করা যায়, প্রতিটির নিজস্ব পাঠ ও কম্পিউটার প্রতিপক্ষসহ।</p>
+  {GAMES}
+  <h3>সূত্র</h3>
+  {SOURCES}`,
+  availableNow: 'উগান্ডা &middot; এখনই খেলা যায়',
+};
+
+const SOURCES_HTML = `<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Omweso">Omweso &mdash; Wikipedia</a></li>
+  <li><a href="https://mancala.fandom.com/wiki/Omweso">Omweso &mdash; Mancala World</a></li>
+  <li><a href="https://escholarship.org/content/qt2th8b363/qt2th8b363.pdf">J. S. Coleman, <i>Omweso, a Game People Play in Uganda</i> (UCLA, 1970)</a></li>
+  <li><a href="https://ultraboardgames.com/mancala/omweso.php">Omweso &mdash; UltraBoardGames</a></li>
+</ul>`;
+
+// ===== Omweso lessons: structure & checks (text lives in i18n.js under lessons.<id>) =====
+const OMWESO_LESSONS = [
+  { id: 'board',
+    puzzle: { rows: [[2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2],[2,2,2,2,2,2,2,2]] },
+    task: { type: 'tap', check: (p, i) => p === 0 && i >= 8, wrongKey: (p, i) => p === 1 ? 'wrongNorth' : 'wrongOuter' } },
+  { id: 'sow', puzzle: 'sow', arrows: true, task: { type: 'move', check: r => true, demo: { start: 2 } } },
+  { id: 'relay', puzzle: 'relay', arrows: true, task: { type: 'move', check: r => r.laps >= 2, demo: { start: 0 } } },
+  { id: 'capture', puzzle: 'capture', arrows: true, task: { type: 'move', check: r => r.caps >= 1, demo: { start: 6 } } },
+  { id: 'chain', puzzle: 'chain', arrows: true, task: { type: 'move', check: r => r.caps >= 2, demo: { start: 6 } } },
+  { id: 'defend', puzzle: 'defend', arrows: true, threat: { start: 9 },
+    task: { type: 'move', check: (r, after) => Omweso.enumerate(after, 1).every(m => m.res.caps === 0), demo: { start: 12 } } },
+  { id: 'reverse', puzzle: 'reverse', arrows: true, reversePits: true,
+    task: { type: 'move', check: r => r.reverse >= 1 && r.caps >= 1, demo: { start: 0, choices: [true] } } },
+  { id: 'win', puzzle: 'win', arrows: true,
+    task: { type: 'move', check: (r, after) => Omweso.legal(after, 1).length === 0, demo: { start: 9 } } },
+  { id: 'setup', cta: 'play' },
+  { id: 'variations', cta: 'play' },
+];
+
+// ===== App =====
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} },
+};
+
+// ---------- Game registry (add more games here later) ----------
+const GAMES = {
+  omweso: { engine: Omweso, lessons: OMWESO_LESSONS, puzzles: PUZZLES },
+};
+const game = GAMES.omweso;
+const E = game.engine;
+
+// ---------- Language & theme ----------
+let LANG = store.get('omweso-lang', (navigator.language || '').toLowerCase().startsWith('bn') ? 'bn' : 'en');
+if (!I18N[LANG]) LANG = 'en';
+let THEME = store.get('omweso-theme', 'auto');
+const BN_DIGITS = '০১২৩৪৫৬৭৮৯';
+const num = n => LANG === 'bn' ? String(n).replace(/\d/g, d => BN_DIGITS[d]) : String(n);
+const lookup = (obj, path) => path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
+function t(path, params = {}) {
+  let v = lookup(I18N[LANG], path);
+  if (v == null) v = lookup(I18N.en, path);
+  if (typeof v !== 'string') return v;
+  return v.replace(/\{(\w+)\}/g, (m, k) => (k in params ? (typeof params[k] === 'number' ? num(params[k]) : params[k]) : m));
+}
+const lt = (id, field) => t(`lessons.${id}.${field}`);
+const darkMQ = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+function applyTheme() {
+  const dark = THEME === 'dark' || (THEME === 'auto' && darkMQ && darkMQ.matches);
+  document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+}
+
+const settings = { speed: store.get('omweso-speed', 'normal') };
+const SPEEDS = { slow: 520, normal: 260, fast: 110, instant: 0 };
+
+function pitName(p, i) {
+  const c = E.toRC(p, i)[1];
+  const col = p === 0 ? c + 1 : 8 - c; // counted from that player's own left
+  return `${t(i >= 8 ? 'ui.inner' : 'ui.outer')} ${num(col)}`;
+}
+
+// ---------- Seed layout (golden-angle spiral) ----------
+const SEED_POS = {};
+function seedPositions(n) {
+  if (SEED_POS[n]) return SEED_POS[n];
+  const pts = [];
+  if (n === 1) pts.push([50, 50]);
+  else for (let k = 0; k < n; k++) {
+    const r = 30 * Math.sqrt((k + 0.6) / n), a = k * 2.39996 + 0.5;
+    pts.push([50 + r * Math.cos(a), 50 + r * Math.sin(a)]);
+  }
+  return (SEED_POS[n] = pts);
+}
+
+// ---------- Board view ----------
+const ARROW_SVG = `<svg class="dir" viewBox="0 0 926 218" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M50 168 H876 V50 H50 Z" />
+  <polygon points="452,156 476,168 452,180" /><polygon points="474,38 450,50 474,62" />
+  <polygon points="864,122 876,98 888,122" /><polygon points="38,96 50,120 62,96" /></svg>`;
+
+class BoardView {
+  constructor(root, onPit) {
+    this.onPit = onPit;
+    root.innerHTML = `
+      <div class="side-label top"><span class="who" data-who="1"></span><span class="cap" data-cap="1"></span></div>
+      <div class="board"><div class="grid">
+        <div class="arrows n">${ARROW_SVG}</div><div class="arrows s">${ARROW_SVG}</div>
+        <div class="divider"></div>
+      </div></div>
+      <div class="side-label bottom"><span class="who" data-who="0"></span><span class="cap" data-cap="0"></span></div>`;
+    this.root = root;
+    this.grid = $('.grid', root);
+    this.btns = [];
+    this.labelKeys = ['ui.north', 'ui.southYou'];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 8; c++) {
+      const [p, i] = E.fromRC(r, c);
+      const b = document.createElement('button');
+      b.className = 'pit' + (p === 1 ? ' north' : ' south') + (i >= 8 ? ' inner' : ' outer');
+      if (E.REVERSE.has(i)) b.classList.add('revpit');
+      b.style.gridRow = r + 1; b.style.gridColumn = c + 1;
+      b.dataset.p = p; b.dataset.i = i; b.dataset.n = -1; b.dataset.r = r; b.dataset.c = c;
+      b.innerHTML = '<span class="seeds"></span><span class="count"></span>';
+      b.addEventListener('click', () => this.onPit && this.onPit(p, i));
+      this.grid.appendChild(b);
+      this.btns[p * 16 + i] = b;
+    }
+    // TV remotes / keyboards: arrow keys move between pits
+    this.grid.addEventListener('keydown', e => {
+      const b = e.target.closest('.pit'); if (!b) return;
+      const d = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }[e.key];
+      if (!d) return;
+      const r = Math.min(3, Math.max(0, +b.dataset.r + d[0])), c = Math.min(7, Math.max(0, +b.dataset.c + d[1]));
+      const [p, i] = E.fromRC(r, c);
+      if (r === +b.dataset.r && c === +b.dataset.c) return; // at the edge: let focus leave normally
+      e.preventDefault(); this.el(p, i).focus();
+    });
+    this.options({});
+    this.lastSt = null;
+  }
+  options({ arrows = false, reversePits = false, northArrows = false }) {
+    this.root.classList.toggle('show-arrows', arrows);
+    this.root.classList.toggle('show-north-arrows', northArrows);
+    this.root.classList.toggle('show-rev', reversePits);
+  }
+  labels(nKey, sKey) { if (nKey) this.labelKeys = [nKey, sKey]; $('[data-who="1"]', this.root).textContent = t(this.labelKeys[0]); $('[data-who="0"]', this.root).textContent = t(this.labelKeys[1]); }
+  captures(st) {
+    for (const p of [0, 1]) $(`[data-cap="${p}"]`, this.root).textContent =
+      st && st.captured[p] ? t('ui.captured', { n: st.captured[p] }) : '';
+  }
+  el(p, i) { return this.btns[p * 16 + i]; }
+  setPit(p, i, n) {
+    const b = this.el(p, i);
+    if (+b.dataset.n === n) return;
+    b.dataset.n = n;
+    const show = Math.min(n, 14), pts = seedPositions(show);
+    $('.seeds', b).innerHTML = pts.map(([x, y], k) =>
+      `<i style="left:${x}%;top:${y}%;--h:${(k * 37 + i * 11) % 40}"></i>`).join('');
+    $('.count', b).textContent = n ? num(n) : '';
+    b.setAttribute('aria-label', t('ui.seedsAria', { side: t(p ? 'ui.north' : 'ui.south'), pit: pitName(p, i), n }));
+  }
+  render(st, showCaps = true) {
+    this.lastSt = st; this.showCaps = showCaps;
+    for (const p of [0, 1]) for (let i = 0; i < 16; i++) this.setPit(p, i, st.s[p][i]);
+    this.captures(showCaps ? st : null);
+  }
+  refresh() { this.btns.forEach(b => (b.dataset.n = -1)); this.labels(); if (this.lastSt) this.render(this.lastSt, this.showCaps); }
+  mark(list, cls) { list.forEach(([p, i]) => this.el(p, i).classList.add(cls)); }
+  clear(...classes) { this.btns.forEach(b => b.classList.remove(...classes)); }
+  pulse(p, i, cls = 'pulse') { const b = this.el(p, i); b.classList.remove(cls); void b.offsetWidth; b.classList.add(cls); }
+  setClickable(fn) { this.btns.forEach(b => b.classList.toggle('clickable', !!fn && fn(+b.dataset.p, +b.dataset.i))); }
+}
+
+// ---------- Animated turn ----------
+async function animateTurn(st, p, start, ui) {
+  const g = E.turn(st, p, start);
+  const res = { caps: 0, capSeeds: 0, laps: 0, reverse: 0 };
+  const board = ui.board;
+  let r = g.next(), hand = 0;
+  board.clear('active', 'cap', 'origin', 'path', 'landed');
+  while (!r.done) {
+    const e = r.value;
+    const d = ui.skip && ui.skip() ? 0 : SPEEDS[settings.speed];
+    let send;
+    switch (e.t) {
+      case 'pickup':
+        hand = e.n; board.render(st); board.clear('active', 'landed');
+        board.el(p, e.i).classList.add('origin');
+        ui.hand(hand, t(e.first ? 'anim.lifted' : 'anim.relay', { n: e.n, pit: pitName(p, e.i) }));
+        if (d) await sleep(d * 1.6);
+        break;
+      case 'choice':
+        send = ui.chooser ? await ui.chooser(e, st) : false;
+        break;
+      case 'lap':
+        res.laps++; if (e.dir === -1) { res.reverse++; ui.hand(hand, t('anim.clockwise')); }
+        break;
+      case 'drop':
+        hand = e.left; board.clear('active');
+        board.setPit(p, e.i, st.s[p][e.i]); board.el(p, e.i).classList.add('active'); board.pulse(p, e.i);
+        ui.hand(hand);
+        if (d) await sleep(d);
+        break;
+      case 'capture':
+        res.caps++; res.capSeeds += e.n;
+        board.mark(e.pits.map(i => [e.q, i]), 'cap');
+        board.el(p, e.i).classList.add('landed');
+        ui.hand(e.n, t('anim.capture', { n: e.n, side: t(e.q ? 'ui.north' : 'ui.south'), pit: pitName(p, e.origin) }));
+        if (d) await sleep(d * 3.2);
+        board.render(st); board.clear('cap', 'origin', 'landed');
+        board.el(p, e.origin).classList.add('origin'); hand = e.n;
+        if (d) await sleep(d);
+        break;
+      case 'blocked':
+        ui.hand(hand, t('anim.blocked'));
+        if (d) await sleep(d * 3);
+        break;
+      case 'end':
+        board.el(p, e.i).classList.add('landed');
+        ui.hand(0, t('anim.end'));
+        break;
+      case 'endless':
+        ui.hand(0, t('anim.endless'));
+        break;
+    }
+    r = g.next(send);
+  }
+  board.render(st); board.clear('active', 'origin');
+  return res;
+}
+
+function makeChooser(container, board) {
+  return (e) => new Promise(resolve => {
+    const path = []; let pos = e.origin;
+    for (let k = 0; k < e.n; k++) { pos = (pos + 15) % 16; path.push([e.p, pos]); }
+    board.mark(path, 'path');
+    container.innerHTML = `<div class="choice"><p>${t('anim.choiceQ')}</p>
+      <button class="btn" data-c="0">${t('anim.choiceAnti')}</button>
+      <button class="btn primary" data-c="1">${t('anim.choiceClock')}</button></div>`;
+    container.hidden = false;
+    $('button.primary', container).focus();
+    $$('button', container).forEach(b => b.onclick = () => {
+      container.hidden = true; container.innerHTML = ''; board.clear('path'); resolve(b.dataset.c === '1');
+    });
+  });
+}
+
+// ---------- Static text ----------
+function applyStatic() {
+  document.documentElement.lang = LANG;
+  document.title = LANG === 'bn' ? 'ওমওয়েসো শিখুন' : 'Learn Omweso';
+  $$('[data-i18n]').forEach(el => { el.innerHTML = t(el.dataset.i18n); });
+  const gamesHTML = `<div class="games">
+    <div class="card"><h4>${t('gameName')}</h4><p class="muted" style="margin:0">${t('availableNow')}</p></div>
+    <div class="card soon"><ul style="margin:0;padding-left:1.1em">${t('soon').map(n => `<li>${n} <span class="muted">${t('ui.comingLater')}</span></li>`).join('')}</ul></div></div>`;
+  $('#view-rules').innerHTML = t('rulesHTML');
+  $('#view-about').innerHTML = t('aboutHTML').replace('{GAMES}', gamesHTML).replace('{SOURCES}', SOURCES_HTML);
+  Play.firstOptions();
+}
+
+// ---------- Routing ----------
+const VIEWS = ['learn', 'play', 'rules', 'about'];
+function route() {
+  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'learn';
+  VIEWS.forEach(x => { $('#view-' + x).hidden = x !== v; $(`nav a[href="#${x}"]`).classList.toggle('on', x === v); });
+  if (v === 'play') Play.show();
+  window.scrollTo(0, 0);
+}
+
+// ---------- Learn ----------
+const Learn = (() => {
+  let idx = 0, st = null, busy = false, done = new Set(store.get('omweso-done', [])), skip = false;
+  let feedback = null; // [fn, kind] so it can be re-rendered on language change
+  const L = game.lessons;
+  let board;
+  const ui = () => ({
+    board, skip: () => skip,
+    hand: (n, msg) => { $('#l-hand').textContent = n ? t('ui.inHand', { n }) : ''; if (msg) $('#l-msg').innerHTML = msg; },
+    chooser: makeChooser($('#l-choice'), board),
+  });
+  function init() {
+    board = new BoardView($('#l-board'), onPit);
+    board.labels('ui.north', 'ui.southYou');
+    $('#l-reset').onclick = () => load(idx);
+    $('#l-hint').onclick = () => { if (L[idx].task) setFeedback(() => t('learn.hintPrefix') + lt(L[idx].id, 'hint'), 'hint'); };
+    $('#l-demo').onclick = demo;
+    $('#l-threat').onclick = threat;
+    $('#l-prev').onclick = () => go(idx - 1);
+    $('#l-skip').onclick = () => { skip = true; };
+    go(Math.min(store.get('omweso-lesson', 0), L.length - 1), true);
+  }
+  function renderList() {
+    $('#lesson-list').innerHTML = L.map((l, k) =>
+      `<li><button data-k="${k}" class="${k === idx ? 'on' : ''} ${done.has(l.id) ? 'done' : ''}">
+        <span class="num">${done.has(l.id) ? '&#10003;' : num(k + 1)}</span>${lt(l.id, 'title')}</button></li>`).join('');
+    $$('#lesson-list button').forEach(b => b.onclick = () => go(+b.dataset.k));
+    $('#l-progress').textContent = t('ui.progress', { n: done.size, total: L.length });
+    const on = $('#lesson-list button.on'); if (on && on.scrollIntoView) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+  function renderText() {
+    const l = L[idx];
+    $('#l-title').innerHTML = `<span class="kicker">${t('ui.lessonOf', { k: idx + 1, total: L.length })}</span>${lt(l.id, 'title')}`;
+    $('#l-text').innerHTML = lt(l.id, 'html');
+    $('#l-prev').disabled = idx === 0;
+    const last = idx === L.length - 1;
+    $('#l-next').innerHTML = last ? t('ui.finish') : t('ui.next');
+    $('#l-next').onclick = last ? () => { location.hash = 'play'; } : () => go(idx + 1);
+    $('#l-cta').innerHTML = l.cta ? `<a class="btn primary" href="#play">${t('ui.playCta')}</a>` : '';
+    if (l.task) $('#l-task').innerHTML = lt(l.id, 'prompt');
+    if (feedback) $('#l-feedback').innerHTML = feedback[0]();
+    renderList();
+  }
+  function go(k, first) {
+    if (busy || k < 0 || k >= L.length) return;
+    idx = k; store.set('omweso-lesson', k);
+    if (!L[k].task) { done.add(L[k].id); store.set('omweso-done', [...done]); }
+    feedback = null;
+    renderText();
+    load(k);
+    if (!first) $('#view-learn').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  function load(k) {
+    if (busy) return;
+    const l = L[k];
+    $('#l-boardbox').hidden = !l.puzzle;
+    $('#l-choice').hidden = true;
+    if (!l.puzzle) return;
+    const rows = typeof l.puzzle === 'string' ? game.puzzles[l.puzzle].rows : l.puzzle.rows;
+    st = E.fromRows(rows, { firstMoveRule: false });
+    st.moves = [1, 1];
+    board.options({ arrows: !!l.arrows, reversePits: !!l.reversePits });
+    board.clear('active', 'cap', 'origin', 'path', 'landed', 'threat');
+    board.render(st, false);
+    board.setClickable(l.task.type === 'move' ? (p, i) => p === 0 && st.s[0][i] >= 2 : () => true);
+    $('#l-hand').textContent = ''; $('#l-msg').innerHTML = '';
+    $('#l-demo').hidden = !l.task.demo;
+    $('#l-threat').hidden = !l.threat;
+    if (done.has(l.id)) setFeedback(() => t('learn.doneBefore'), 'ok'); else setFeedback(null);
+    if (l.threat) board.mark(threatPits(), 'threat');
+  }
+  function threatPits() {
+    const out = [];
+    const s2 = E.clone(st); s2.turn = 1;
+    for (const m of E.enumerate(s2, 1)) {
+      if (!m.res.caps) continue;
+      const r = E.runSync(E.clone(st), 1, m.start, m.choices, true);
+      r.events.filter(e => e.t === 'capture').forEach(e => e.pits.forEach(i => out.push([0, i])));
+    }
+    return out;
+  }
+  function setFeedback(fn, kind) {
+    feedback = fn ? [fn, kind] : null;
+    const f = $('#l-feedback'); f.innerHTML = fn ? fn() : ''; f.className = 'feedback ' + (fn ? kind : '');
+  }
+  async function onPit(p, i) {
+    const l = L[idx]; if (busy || !l.task) return;
+    if (l.task.type === 'tap') {
+      if (l.task.check(p, i)) { board.mark(E.legal(st, 0).filter(x => x >= 8).map(x => [0, x]), 'path'); complete(); }
+      else { board.pulse(p, i, 'shake'); const key = l.task.wrongKey(p, i); setFeedback(() => lt(l.id, key), 'bad'); }
+      return;
+    }
+    if (p !== 0) { board.pulse(p, i, 'shake'); setFeedback(() => t('learn.notYours'), 'bad'); return; }
+    if (st.s[0][i] < 2) { board.pulse(p, i, 'shake'); const one = st.s[0][i] === 1; setFeedback(() => t(one ? 'learn.single' : 'learn.empty'), 'bad'); return; }
+    await runMove(i);
+  }
+  async function runMove(i, choices) {
+    const l = L[idx];
+    busy = true; skip = false; setFeedback(null); board.setClickable(null); board.clear('threat', 'path');
+    const u = ui();
+    if (choices) { const q = choices.slice(); u.chooser = async () => { await sleep(400); return q.shift() || false; }; }
+    $('#l-skip').hidden = false;
+    const res = await animateTurn(st, 0, i, u);
+    $('#l-skip').hidden = true;
+    busy = false;
+    if (l.task.check(res, st)) complete();
+    else setFeedback(() => lt(l.id, 'fail') || t('learn.failDefault'), 'bad');
+  }
+  function complete() {
+    const l = L[idx];
+    setFeedback(() => t('learn.wellDone') + lt(l.id, 'success'), 'ok');
+    done.add(l.id); store.set('omweso-done', [...done]); renderList();
+  }
+  async function demo() {
+    if (busy) return; const l = L[idx]; load(idx);
+    setFeedback(() => t('learn.watch'), 'hint');
+    await runMove(l.task.demo.start, l.task.demo.choices || []);
+  }
+  async function threat() {
+    if (busy) return; const l = L[idx]; load(idx);
+    const saved = E.clone(st);
+    busy = true; skip = false;
+    $('#l-msg').innerHTML = t('learn.ifNorth');
+    await sleep(500);
+    await animateTurn(st, 1, l.threat.start, ui());
+    await sleep(1400);
+    st = saved; busy = false; load(idx);
+    setFeedback(() => t('learn.threatAfter'), 'hint');
+  }
+  function refresh() { board.refresh(); renderText(); }
+  return { init, refresh };
+})();
+
+// ---------- Play ----------
+const Play = (() => {
+  let st, board, phase = 'setup', busy = false, cfg, history = [], hand = 0, arrangeFor = 0, skip = false, inited = false;
+  let arrangeQueue = [], logs = [], statusFn = () => '';
+  const isHuman = p => cfg.mode === '2p' || p === 0;
+  const nameOf = p => t(cfg.mode === '2p' ? (p ? 'ui.north' : 'ui.south') : (p ? 'ui.computer' : 'ui.you'));
+  const ui = () => ({
+    board, skip: () => skip,
+    hand: (n, msg) => { $('#p-hand').textContent = n ? t('ui.inHand', { n }) : ''; if (msg) $('#p-msg').innerHTML = msg; },
+    chooser: makeChooser($('#p-choice'), board),
+  });
+  function setStatus(fn) { statusFn = fn; $('#p-status').innerHTML = fn(); }
+  function firstOptions() {
+    const sel = $('#p-first'); const v = sel.value;
+    const two = $('#p-mode').value === '2p';
+    sel.innerHTML = `<option value="0">${t(two ? 'ui.south' : 'ui.you')}</option><option value="1">${t(two ? 'ui.north' : 'ui.computer')}</option><option value="r">${t('ui.byLot')}</option>`;
+    sel.value = v || '0';
+  }
+  function init() {
+    if (inited) return; inited = true;
+    board = new BoardView($('#p-board'), onPit);
+    $('#p-start').onclick = start;
+    $('#p-new').onclick = () => setPhase('setup');
+    $('#p-undo').onclick = undo;
+    $('#p-hint').onclick = hint;
+    $('#p-skip').onclick = () => { skip = true; };
+    $('#p-even').onclick = () => { st.s[arrangeFor] = Array(16).fill(2); hand = 0; refreshArrange(); };
+    $('#p-rand').onclick = () => { st.s[arrangeFor] = E.randomSetup(); hand = 0; refreshArrange(); };
+    $('#p-trad').onclick = () => { st.s[arrangeFor] = Array(16).fill(0).map((_, i) => i < 8 ? 4 : 0); hand = 0; refreshArrange(); };
+    $('#p-done').onclick = finishArrange;
+    $('#p-arrows').onchange = applyHelpers; $('#p-rev').onchange = applyHelpers;
+    $('#p-mode').onchange = firstOptions;
+    setPhase('setup');
+  }
+  function show() { init(); }
+  function applyHelpers() {
+    board.options({ arrows: $('#p-arrows').checked, northArrows: $('#p-arrows').checked && cfg && cfg.mode === '2p', reversePits: $('#p-rev').checked });
+  }
+  function setPhase(ph) {
+    phase = ph; busy = false;
+    $('#p-setup').hidden = ph !== 'setup';
+    $('#p-game').hidden = ph === 'setup';
+    $('#p-arrange').hidden = ph !== 'arrange';
+    $('#p-controls').hidden = ph !== 'play' && ph !== 'over';
+    $('#p-banner').hidden = ph !== 'over';
+    $('#p-choice').hidden = true;
+    if (ph === 'setup') setTimeout(() => $('#p-start').focus({ preventScroll: true }), 0);
+  }
+  function start() {
+    cfg = { mode: $('#p-mode').value, layout: $('#p-layout').value, first: $('#p-first').value, fmr: $('#p-fmr').checked };
+    st = E.newState({ firstMoveRule: cfg.fmr });
+    history = []; logs = []; renderLog();
+    board.clear('active', 'cap', 'origin', 'path', 'landed', 'threat');
+    board.labels(cfg.mode === '2p' ? 'ui.north' : 'ui.computerNorth', cfg.mode === '2p' ? 'ui.south' : 'ui.youSouth');
+    applyHelpers();
+    const firstP = cfg.first === 'r' ? (Math.random() < 0.5 ? 0 : 1) : +cfg.first;
+    st.turn = firstP;
+    if (cfg.layout === 'even') { st.s = [Array(16).fill(2), Array(16).fill(2)]; beginPlay(); }
+    else if (cfg.layout === 'random') { st.s = [E.randomSetup(), E.randomSetup()]; beginPlay(); }
+    else {
+      st.s = [0, 1].map(() => Array(16).fill(0).map((_, i) => i < 8 ? 4 : 0));
+      board.render(st);
+      setPhase('arrange');
+      arrangeQueue = [firstP, 1 - firstP];
+      nextArrange();
+    }
+  }
+  function nextArrange() {
+    if (!arrangeQueue.length) return beginPlay();
+    arrangeFor = arrangeQueue.shift();
+    if (!isHuman(arrangeFor)) { st.s[arrangeFor] = E.randomSetup(); board.render(st); const w = arrangeFor; log(() => t('play.arranged', { who: nameOf(w) })); return nextArrange(); }
+    hand = 0; refreshArrange();
+  }
+  function refreshArrange() {
+    board.render(st);
+    board.clear('path');
+    board.setClickable(p => p === arrangeFor);
+    const p = arrangeFor;
+    setStatus(() => t('play.arrange', { who: nameOf(p) }));
+    $('#p-hand').textContent = hand ? t('ui.inHand', { n: hand }) : '';
+    $('#p-msg').innerHTML = '';
+    $('#p-done').disabled = hand > 0;
+  }
+  function finishArrange() { if (hand) return; const w = arrangeFor; log(() => t('play.arranged', { who: nameOf(w) })); nextArrange(); }
+  function beginPlay() {
+    setPhase('play'); board.render(st); history = [];
+    const f = st.turn;
+    log(() => (f === 0 && cfg.mode !== '2p') ? t('play.youFirst') : t('play.movesFirst', { who: nameOf(f) }));
+    nextTurn();
+  }
+  function nextTurn() {
+    board.render(st);
+    const w = E.winner(st);
+    if (st.endless) return over(null);
+    if (w !== null) return over(w);
+    const p = st.turn;
+    if (isHuman(p)) {
+      board.setClickable((q, i) => q === p && st.s[q][i] >= 2);
+      const first = st.firstMoveRule && st.moves[p] === 0;
+      setStatus(() => (cfg.mode === '2p' ? t('play.sideTurn', { side: nameOf(p) }) : t('play.yourTurn')) +
+        (first ? ` <span class="muted">${t('play.firstMoveNote')}</span>` : ''));
+      $('#p-undo').disabled = !history.length;
+      const firstPit = $(`#p-board .pit.clickable`); if (firstPit && document.activeElement && document.activeElement.closest && !document.activeElement.closest('#p-board')) firstPit.focus({ preventScroll: true });
+    } else {
+      board.setClickable(null);
+      setStatus(() => t('play.thinking'));
+      busy = true;
+      setTimeout(async () => {
+        const m = E.bestMove(st, p, cfg.mode.split('-')[1]);
+        await sleep(SPEEDS[settings.speed] ? 350 : 0);
+        await doMove(p, m.start, m.choices);
+      }, 300);
+    }
+  }
+  async function doMove(p, i, choices) {
+    busy = true; skip = false; board.setClickable(null); $('#p-skip').hidden = false;
+    const u = ui();
+    if (choices) { const q = choices.slice(); u.chooser = async () => q.shift() || false; }
+    const before = E.clone(st);
+    const res = await animateTurn(st, p, i, u);
+    $('#p-skip').hidden = true;
+    if (isHuman(p)) history.push(before);
+    log(() => t('play.logMove', { who: nameOf(p), pit: pitName(p, i), laps: res.laps }) +
+      (res.reverse ? t('play.logRev', { n: res.reverse }) : '') + (res.caps ? t('play.logCap', { n: res.capSeeds }) : ''));
+    busy = false;
+    nextTurn();
+  }
+  function onPit(p, i) {
+    if (busy) return;
+    if (phase === 'arrange') {
+      if (p !== arrangeFor) return;
+      if (hand === 0) { if (st.s[p][i] > 0) { st.s[p][i]--; hand++; } }
+      else { st.s[p][i]++; hand--; }
+      refreshArrange(); board.el(p, i).classList.add('path');
+      return;
+    }
+    if (phase !== 'play' || !isHuman(st.turn)) return;
+    if (p !== st.turn) { board.pulse(p, i, 'shake'); $('#p-msg').innerHTML = t('play.notYours'); return; }
+    if (st.s[p][i] < 2) { board.pulse(p, i, 'shake'); $('#p-msg').innerHTML = t(st.s[p][i] ? 'play.single' : 'play.empty'); return; }
+    doMove(p, i);
+  }
+  function undo() {
+    if (busy || !history.length) return;
+    st = history.pop(); setPhase('play');
+    log(() => t('play.undone')); nextTurn();
+  }
+  function hint() {
+    if (busy || phase !== 'play' || !isHuman(st.turn)) return;
+    const m = E.bestMove(st, st.turn, 'hard'), p = st.turn;
+    board.clear('path'); board.el(p, m.start).classList.add('path');
+    $('#p-msg').innerHTML = t('play.hint', { pit: pitName(p, m.start) }) +
+      (m.choices.includes(true) ? t('play.hintRev') : '.') + (m.res.caps ? t('play.hintCap', { n: m.res.capSeeds }) : '');
+  }
+  function over(w) {
+    setPhase('over'); board.setClickable(null);
+    const msg = () => w === null ? t('play.endless')
+      : cfg.mode === '2p' ? t('play.sideWins', { side: nameOf(w) })
+      : w === 0 ? t('play.youWin') : t('play.cpuWins');
+    const banner = () => { $('#p-banner').innerHTML = `<p>${msg()}</p><button class="btn primary" id="p-again">${t('ui.newGame')}</button>`; $('#p-again').onclick = () => setPhase('setup'); };
+    banner(); overBanner = banner;
+    setStatus(() => t('play.gameOver'));
+    $('#p-undo').disabled = !history.length;
+    log(() => `<b>${msg()}</b>`);
+    $('#p-again').focus({ preventScroll: true });
+  }
+  let overBanner = null;
+  function log(fn) { logs.unshift(fn); renderLog(); }
+  function renderLog() { $('#p-log').innerHTML = logs.map(f => `<li>${f()}</li>`).join(''); }
+  function refresh() {
+    firstOptions();
+    if (!inited) return;
+    board.refresh(); renderLog(); $('#p-status').innerHTML = statusFn();
+    if (phase === 'over' && overBanner) overBanner();
+  }
+  return { show, refresh, firstOptions };
+})();
+
+// ---------- Boot ----------
+function setLanguage(l) {
+  LANG = I18N[l] ? l : 'en'; store.set('omweso-lang', LANG);
+  $('#lang').value = LANG;
+  applyStatic(); Learn.refresh(); Play.refresh();
+}
+function boot() {
+  applyTheme();
+  if (darkMQ && darkMQ.addEventListener) darkMQ.addEventListener('change', applyTheme);
+  $('#lang').innerHTML = Object.keys(I18N).map(k => `<option value="${k}">${I18N[k].langName}</option>`).join('');
+  $('#lang').value = LANG;
+  $('#lang').onchange = () => setLanguage($('#lang').value);
+  $('#theme').value = THEME;
+  $('#theme').onchange = () => { THEME = $('#theme').value; store.set('omweso-theme', THEME); applyTheme(); };
+  $$('.speed').forEach(s => { s.value = settings.speed; s.onchange = () => { settings.speed = s.value; store.set('omweso-speed', s.value); $$('.speed').forEach(x => x.value = s.value); }; });
+  applyStatic();
+  Learn.init();
+  window.addEventListener('hashchange', route);
+  route();
+}
+boot();
+
+</script>
+</body>
+</html>
